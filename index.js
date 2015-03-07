@@ -3,12 +3,14 @@ var port = 6969;
 	
 //  reqs
 var http = require("http");
-var express = require("express")
+var express = require("express");
+var mongoose = require("mongoose");
 var app = express();
 var url = require("url");
 
+mongoose.connect('mongodb://localhost/firstCup');
 
-app.use(express.static(__dirname + '/public'))
+app.use(express.static(__dirname + '/public'));
 
 //server
 // function requestListener(request,response){
