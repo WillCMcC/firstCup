@@ -22,7 +22,6 @@ server.listen(port, function(){
 app.use(express.static(__dirname + '/public'));
 
 //Mongo Intialization
-
 mongoose.connect('mongodb://localhost/firstCup');
 var db = mongoose.connection;
 db.on('error', function (err) {
@@ -33,21 +32,21 @@ db.once('open', function () {
 });
 
 //Define Schema
-var Schema = mongoose.Schema;
-var userSchema = new Schema({
-	name : String,
+var linkSchema = new mongoose.Schema({
+	url : String,
+	cups : Number,
+	postedBy : String,
+	viewedBy : Array,
 });
 
 // Schema to DB Model
-var User = mongoose.model('User', userSchema);
+var LinkModel = mongoose.model('LinkModel', linkSchema);
 
 //Test DB Object
-var squid = new User({
-name : 'Squad',
-});
+
  
  //Save DB Object
-squid.save(function (err, data) {
+firstPost.save(function (err, data) {
 if (err) console.log(err);
 else console.log('Saved : ', data );
 });
