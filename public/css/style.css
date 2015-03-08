@@ -1,6 +1,4 @@
-li {
-	list-style-type: circle
-}
+
 .generated {
 	max-height: 20%;
 	max-width: 30%;
@@ -15,4 +13,16 @@ li {
 
 .titleLinkButton {
 	width: 100%;
+}
+
+.submitBox{
+	max-width: 30%;	
+	margin-left: 20px;
+	margin-right: 20px;
+	margin:auto;
+}
+
+.submitBoxButton{
+	margin:auto;
+	min-width: 100%;
 }
