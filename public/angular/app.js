@@ -1,13 +1,9 @@
 var app = angular.module('firstCup', ['ui.router']);
 
 app.config(function($stateProvider, $httpProvider, $urlRouterProvider) {
+	// $scope.links = [];
 	$urlRouterProvider.otherwise("/home");
 	$stateProvider
-		// .state('main', {
-		// 	url: "/home",
-		// 	templateUrl: "angular/links.html",
-		// 	controller: "LinksController"
-		// })
 		.state('home', {
 		      url: "/home",
 		      views: {
@@ -15,7 +11,6 @@ app.config(function($stateProvider, $httpProvider, $urlRouterProvider) {
 		        "linksView": { templateUrl: "angular/views/links.html" }
 		      }
 		    })
-
 });
 
 app.controller('LinksController', function($scope, LinkDb){
@@ -29,14 +24,16 @@ app.controller('LinksController', function($scope, LinkDb){
 		});
 })
 
-app.controller("LinkSubmitController", function($scope, LinkDb){
+app.controller("LinkSubmitController", function($scope, LinkDb, $state){
 	$scope.submission = {};
 	$scope.submit = function(submission){
 		console.log(submission)
 		//save to db
 		LinkDb.postLink(submission);
+		$state.reload();
 	}
 	$scope.toggleLinkSubmitView = function(){
+		console.log($scope.links)
 		if( $scope.showLinkSubmitView === true ){
 			$scope.showLinkSubmitView = false;
 		} else {
