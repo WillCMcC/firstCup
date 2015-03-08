@@ -1,13 +1,12 @@
-var app = angular.module('firstCup', ['ngRoute']);
-app.config(function($routeProvider, $httpProvider) {
-  $routeProvider
-    .when('/', {
-      templateUrl: 'angular/links.html',
-      controller: 'LinksController'
-    })
-    .otherwise({
-      redirectTo: '/'
-    });
+var app = angular.module('firstCup', ['ui.router']);
+app.config(function($stateProvider, $httpProvider) {
+  $stateProvider
+  	.state('main', {
+  	      url: "/links",
+  	      templateUrl: "angular/links.html",
+  	      controller: "LinksController"
+  	    })
+
 });
 
 app.controller('LinksController', function($scope, $http){
@@ -16,12 +15,15 @@ app.controller('LinksController', function($scope, $http){
 
 
 	// making ajax request
-	$http({
-		method: 'GET',
-		url: '/bro'
-	}).then(function(resp){
-		$scope.links = resp.data;
-	})
+	function updateLinks(){
+		$http({
+			method: 'GET',
+			url: '/bro'
+		}).then(function(resp){
+			$scope.links = resp.data;
+		})
+	}
+	updateLinks();
 })
 
 app.controller("LinkSubmitController", function($scope, $http){
