@@ -1,5 +1,21 @@
 <div>
 	<ul>
+		<form role="form">
+  <div class="form-group">
+    <label for="URL">URL:</label>
+    <input class="form-control" id="URL">
+  </div>
+  <div class="form-group">
+    <label for="title">Title:</label>
+    <input class="form-control" id="title">
+  </div>
+  <div class="form-group">
+    <label for="description">Description:</label>
+    <input class="form-control" id="description">
+  </div>
+
+  <button type="submit" class="btn btn-default">Submit</button>
+</form>
 		<li class="well well-lg" ng-repeat="link in links">
 			{{link.url}}
 		</li>
