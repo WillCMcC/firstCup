@@ -1,6 +1,6 @@
 <div ng-controller="LinksController">
 	<div >
-			<div class="panel panel-default generated" ng-repeat="link in links" >
+			<div class="card panel-default generated" ng-repeat="link in links" >
 			  <div class="panel-heading" style="text-align:center">
 			    	<a role="button" class="btn btn-primary titleLinkButton" href="http://{{link.url}}" >{{link.title}}</a>
 			    	<br>Posted At: {{link.submissionTime}}
