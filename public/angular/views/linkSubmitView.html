@@ -1,5 +1,5 @@
-<div ng-controller="LinkSubmitController" >
-  <button class="btn btn-primary" type="button" ng-click='toggleLinkSubmitView()'>
+<div ng-controller="LinkSubmitController" class="submitBox">
+  <button class="btn btn-primary submitBoxButton" type="button" ng-click='toggleLinkSubmitView()'>
     Submit Link
   </button>
   <form role="form" class="submissionDiv" ng-show="showLinkSubmitView">
@@ -17,7 +17,7 @@
           <label for="description">Description:</label>
           <input ng-model="submission.description" class="form-control" id="description">
         </div>
-        <button type="submit" ng-click='submit(submission)' class="btn btn-default">Submit</button>
+        <button type="submit" ng-click='submit(submission)' class="btn btn-default ">Submit</button>
       </div>
     <!-- </div> -->
   </form>

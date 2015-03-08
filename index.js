@@ -40,6 +40,7 @@ var linkSchema = new mongoose.Schema({
 	postedBy : String,
 	viewedBy : Array,
 	description : String,
+	submissionTime: { type : Date, default: Date.now },
 });
 
 // Schema to DB Model
@@ -61,10 +62,3 @@ app.get('/bro', function(request, response){
 		response.send(links);
 	});
 })
-
-
-
-
-
-
-
