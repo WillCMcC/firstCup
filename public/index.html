@@ -10,12 +10,12 @@
 
     <body>
       <h1>First Cup</h1>
-      <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
-        Button with data-target
-      </button>
       <div ng-controller="LinkSubmitController" >
-        <form role="form" class="submissionDiv">
-          <div class="collapse" id="collapseExample" >
+        <button class="btn btn-primary" type="button" ng-click='toggleLinkSubmitView()'>
+          Button with data-target
+        </button>
+        <form role="form" class="submissionDiv" ng-show="showLinkSubmitView">
+          <!-- <div class="collapse" id="collapseExample" > -->
             <div class="well" > 
               <div class="form-group">
                 <label for="URL">URL:</label>
@@ -31,7 +31,7 @@
               </div>
               <button type="submit" ng-click='submit(submission)' class="btn btn-default">Submit</button>
             </div>
-          </div>
+          <!-- </div> -->
         </form>
       </div>
       <div ui-view></div>
@@ -41,5 +41,5 @@
     <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
     <script src="angular/app.js"></script>
 
-    <script src="bower_components/bootstrap/dist/js/bootstrap.js" /> 
+    <!-- <script src="bower_components/bootstrap/dist/js/bootstrap.js" />  -->
   </html>
