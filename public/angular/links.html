@@ -1,8 +1,8 @@
 <div>
-	<div>
+	<div >
 			<div class="panel panel-default generated" ng-repeat="link in links" >
 			  <div class="panel-heading" style="text-align:center">
-			    	<a role="button"id="title" class="btn btn-primary" href="http://{{link.url}}" >{{link.title}}</a>
+			    	<a role="button" class="btn btn-primary titleLinkButton" href="http://{{link.url}}" >{{link.title}}</a>
 			    	<br>Posted By: {{link.postedBy}}
 			    	<br>Viewed By: <span ng-repeat="viewer in link.viewedBy">{{viewer}} </span>
 			  </div>
