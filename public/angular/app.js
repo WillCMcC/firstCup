@@ -1,4 +1,5 @@
 var app = angular.module('firstCup', ['ui.router']);
+
 app.config(function($stateProvider, $httpProvider) {
   $stateProvider
   	.state('main', {
