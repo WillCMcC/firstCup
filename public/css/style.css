@@ -1,1 +1,10 @@
-style.css
+li {
+	list-style-type: circle
+}
+.generated {
+	height: 20%;
+	width: 30%;
+	text-align:center;
+	margin:auto;
+	padding-bottom:250px;
+}
