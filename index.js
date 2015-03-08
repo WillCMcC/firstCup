@@ -10,9 +10,6 @@ var app = express();
 //Server
 var server = http.createServer(app);
 
-app.get('/bro', function(request, response){
-	console.log(request.url);
-})
 
 server.listen(port, function(){
 	console.log('Listening on port ' + port);
@@ -35,8 +32,10 @@ db.once('open', function () {
 var linkSchema = new mongoose.Schema({
 	url : String,
 	cups : Number,
+	title : String,
 	postedBy : String,
 	viewedBy : Array,
+	description : String,
 });
 
 // Schema to DB Model
@@ -46,11 +45,22 @@ var LinkModel = mongoose.model('LinkModel', linkSchema);
 
  
  //Save DB Object
-firstPost.save(function (err, data) {
-if (err) console.log(err);
-else console.log('Saved : ', data );
-});
+// firstPost.save(function (err, data) {
+// if (err) console.log(err);
+// else console.log('Saved : ', data );
+// });
 
+app.get('/bro', function(request, response){
+	// query db
+	LinkModel.find(function(err, links){
+		if (err) return console.log(error)
+		console.log(links);
+		response.send(links);
+	});
+
+	// return db findings to client
+
+})
 
 
 
