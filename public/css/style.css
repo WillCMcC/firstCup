@@ -1,1 +1,18 @@
-style.css
+li {
+	list-style-type: circle
+}
+.generated {
+	max-height: 20%;
+	max-width: 30%;
+	min-width: 30%;
+	text-align:center;
+	padding-bottom:250px;
+	float: left;
+	margin-left: 20px;
+	margin-right: 20px;
+
+}
+
+.titleLinkButton {
+	width: 100%;
+}

@@ -1,7 +1,16 @@
 <div>
-	<ul>
-		<li class="well well-lg" ng-repeat="link in links">
-			{{link.url}}
-		</li>
-	</ul>
+	<div >
+			<div class="panel panel-default generated" ng-repeat="link in links" >
+			  <div class="panel-heading" style="text-align:center">
+			    	<a role="button" class="btn btn-primary titleLinkButton" href="http://{{link.url}}" >{{link.title}}</a>
+			    	<br>Posted By: {{link.postedBy}}
+			    	<br>Viewed By: <span ng-repeat="viewer in link.viewedBy">{{viewer}} </span>
+			  </div>
+			  <div class="panel-body">
+			    {{link.description}}
+			  </div>
+			</div>
+			<div>
+		</div>
+	</div>
 </div>
