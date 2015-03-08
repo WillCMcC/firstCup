@@ -7,21 +7,23 @@
 
     <body>
       <h1>First Cup</h1>
-      <form role="form">
-        <div class="form-group">
-          <label for="URL">URL:</label>
-          <input class="form-control" id="URL">
-        </div>
-        <div class="form-group">
-          <label for="title">Title:</label>
-          <input class="form-control" id="title">
-        </div>
-        <div class="form-group">
-          <label for="description">Description:</label>
-          <input class="form-control" id="description">
-        </div>
-        <button type="submit" class="btn btn-default">Submit</button>
-      </form>
+      <div ng-controller="LinkSubmitController">
+        <form role="form">
+          <div class="form-group">
+            <label for="URL">URL:</label>
+            <input ng-model="submission.url" class="form-control" id="URL">
+          </div>
+          <div class="form-group">
+            <label for="title">Title:</label>
+            <input ng-model="submission.title" class="form-control" id="title">
+          </div>
+          <div class="form-group">
+            <label for="description">Description:</label>
+            <input ng-model="submission.description" class="form-control" id="description">
+          </div>
+          <button type="submit" ng-click='submit(submission)' class="btn btn-default">Submit</button>
+        </form>
+      </div>
       <div ng-view></div>
     </body>
    

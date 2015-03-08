@@ -4,8 +4,12 @@ var port = 6969;
 //  reqs
 var http = require("http");
 var express = require("express");
+var bodyParser = require("body-parser");
 var mongoose = require("mongoose");
 var app = express();
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+
 
 //Server
 var server = http.createServer(app);
@@ -41,15 +45,15 @@ var linkSchema = new mongoose.Schema({
 // Schema to DB Model
 var LinkModel = mongoose.model('LinkModel', linkSchema);
 
-//Test DB Object
 
- 
- //Save DB Object
-// firstPost.save(function (err, data) {
-// if (err) console.log(err);
-// else console.log('Saved : ', data );
-// });
-
+app.post('/linkSubmit', function(req, res){
+	// saving req.body.submission to database
+	var submission = new LinkModel(req.body.submission);
+	submission.save(function(err, data){
+		if (err) console.log(err);
+		console.log('Saved : ', data );
+	})
+})
 app.get('/bro', function(request, response){
 	// query db
 	LinkModel.find(function(err, links){
