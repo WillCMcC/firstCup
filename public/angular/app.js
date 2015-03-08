@@ -3,11 +3,18 @@ var app = angular.module('firstCup', ['ui.router']);
 app.config(function($stateProvider, $httpProvider, $urlRouterProvider) {
 	$urlRouterProvider.otherwise("/home");
 	$stateProvider
-		.state('main', {
-			url: "/home",
-			templateUrl: "angular/links.html",
-			controller: "LinksController"
-		})
+		// .state('main', {
+		// 	url: "/home",
+		// 	templateUrl: "angular/links.html",
+		// 	controller: "LinksController"
+		// })
+		.state('home', {
+		      url: "/home",
+		      views: {
+		        "linkSubmitView": { templateUrl: "angular/views/linkSubmitView.html" },
+		        "linksView": { templateUrl: "angular/views/links.html" }
+		      }
+		    })
 
 });
 
