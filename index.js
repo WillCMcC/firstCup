@@ -61,9 +61,6 @@ app.get('/bro', function(request, response){
 		console.log(links);
 		response.send(links);
 	});
-
-	// return db findings to client
-
 })
 
 
