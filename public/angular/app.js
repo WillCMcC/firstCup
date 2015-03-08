@@ -20,7 +20,6 @@ app.controller('LinksController', function($scope, $http){
 		method: 'GET',
 		url: '/bro'
 	}).then(function(resp){
-		debugger;
 		$scope.links = resp.data;
 	})
 
