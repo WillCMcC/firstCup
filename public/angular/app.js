@@ -8,7 +8,7 @@ app.config(function($stateProvider, $httpProvider, $urlRouterProvider) {
 		      url: "/home",
 		      views: {
 		        "linkSubmitView": { templateUrl: "angular/views/linkSubmitView.html" },
-		        "linksView": { templateUrl: "angular/views/links.html" },
+		        "linksView": { templateUrl: "angular/views/linksView.html" },
 		        "navbar": { templateUrl: "angular/views/navBar.html" }
 		      }
 		    })
