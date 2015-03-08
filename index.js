@@ -45,9 +45,8 @@ var linkSchema = new mongoose.Schema({
 // Schema to DB Model
 var LinkModel = mongoose.model('LinkModel', linkSchema);
 
-
+//save 
 app.post('/linkSubmit', function(req, res){
-	// saving req.body.submission to database
 	var submission = new LinkModel(req.body.submission);
 	submission.save(function(err, data){
 		if (err) console.log(err);
