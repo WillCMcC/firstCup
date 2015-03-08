@@ -28,6 +28,13 @@ app.controller("LinkSubmitController", function($scope, LinkDb){
 		//save to db
 		LinkDb.postLink(submission);
 	}
+	$scope.toggleLinkSubmitView = function(){
+		if( $scope.showLinkSubmitView === true ){
+			$scope.showLinkSubmitView = false;
+		} else {
+			$scope.showLinkSubmitView = true;
+		}
+	}
 })
 
 app.factory('LinkDb', function($http){
