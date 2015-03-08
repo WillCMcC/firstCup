@@ -22,6 +22,18 @@ app.controller('LinksController', function($scope, $http){
 	}).then(function(resp){
 		$scope.links = resp.data;
 	})
+})
 
-
+app.controller("LinkSubmitController", function($scope, $http){
+	$scope.submission = {};
+	$scope.submit = function(submission){
+		console.log(submission)
+		//save to db
+		$http({
+			method: 'POST',
+			url: '/linkSubmit',
+			data: {submission: submission},
+			dataType: 'application/json'
+		});
+	}
 })
