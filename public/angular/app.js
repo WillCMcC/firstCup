@@ -7,7 +7,6 @@ app.config(function($stateProvider, $httpProvider, $urlRouterProvider) {
 		.state('home', {
 		      url: "/home",
 		      views: {
-		        "linkSubmitView": { templateUrl: "angular/views/linkSubmitView.html" },
 		        "linksView": { templateUrl: "angular/views/linksView.html" },
 		        "navbar": { templateUrl: "angular/views/navBar.html" }
 		      }
@@ -25,7 +24,7 @@ app.controller('LinksController', function($scope, LinkDb){
 		});
 })
 
-app.controller("LinkSubmitController", function($scope, LinkDb, $state){
+app.controller("NavController", function($scope, LinkDb, $state){
 	$scope.submission = {};
 	$scope.submit = function(submission){
 		console.log(submission)
@@ -33,14 +32,7 @@ app.controller("LinkSubmitController", function($scope, LinkDb, $state){
 		LinkDb.postLink(submission);
 		$state.reload();
 	}
-	$scope.toggleLinkSubmitView = function(){
-		console.log($scope.showLinkSubmitView)
-		if( $scope.showLinkSubmitView === true ){
-			$scope.showLinkSubmitView = false;
-		} else {
-			$scope.showLinkSubmitView = true;
-		}
-	}
+	$('.modal-trigger').leanModal();
 })
 
 app.factory('LinkDb', function($http){
@@ -51,7 +43,7 @@ app.factory('LinkDb', function($http){
 		})
 	};
 	function postLink(submission){
-		$http({
+		return $http({
 			method: 'POST',
 			url: '/linkSubmit',
 			data: {submission: submission},
@@ -63,4 +55,9 @@ app.factory('LinkDb', function($http){
 		updateLinks: updateLinks,
 		postLink: postLink
 	}
+})
+
+$(document).on('ready', function(){
+	console.log('ready block')
+	$(".dropdown-button").dropdown();
 })

@@ -1,17 +1,32 @@
 <div ng-controller="LinksController">
-	<div >
-			<div class="card panel-default generated" ng-repeat="link in links" >
-			  <div class="panel-heading" style="text-align:center">
-			    	<a role="button" class="btn btn-primary titleLinkButton" href="http://{{link.url}}" >{{link.title}}</a>
-			    	<br>Posted At: {{link.submissionTime}}
-			    	<br>Posted By: {{link.postedBy}}
-			    	<br>Viewed By: <span ng-repeat="viewer in link.viewedBy">{{viewer}} </span>
-			  </div>
-			  <div class="panel-body">
-			    {{link.description}}
-			  </div>
-			</div>
-			<div>
-		</div>
-	</div>
+	<ul class="collection">
+		<!-- <div class='col s4'> -->
+			<li ng-repeat="link in links" class="card small">
+		        <div class="waves-effect waves-teal waves-block waves-light">
+		          <img class="activator">
+		        </div>
+		        <div class="card-content">
+		          <span class="card-title activator grey-text text-darken-4">Submitted by {{link.postedBy}} <i class="mdi-navigation-more-vert right"></i></span>
+		          <p><a href="#">{{link.url}}</a></p>
+		        </div>
+		        <div class="card-reveal">
+		          <span class="card-title grey-text text-darken-4">{{link.title}} <i class="mdi-navigation-close right"></i></span>
+		          <p>{{link.description}}</p>
+		        </div>
+		    </li>
+
+
+	<!-- 			<div class="card panel-default generated" ng-repeat="link in links" >
+				  <div class="panel-heading" style="text-align:center">
+				    	<a role="button" class="btn btn-primary titleLinkButton" href="http://{{link.url}}" >{{link.title}}</a>
+				    	<br>Posted At: {{link.submissionTime}}
+				    	<br>Posted By: {{link.postedBy}}
+				    	<br>Viewed By: <span ng-repeat="viewer in link.viewedBy">{{viewer}} </span>
+				  </div>
+				  <div class="panel-body">
+				    {{link.description}}
+				  </div>
+				</div> -->
+		<!-- </div> -->
+	</ul>
 </div>
