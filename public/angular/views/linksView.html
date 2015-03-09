@@ -1,19 +1,23 @@
 <div ng-controller="LinksController">
-	<ul class="collection">
-		<!-- <div class='col s4'> -->
-			<li ng-repeat="link in links" class="card small">
-		        <div class="waves-effect waves-teal waves-block waves-light">
-		          <img class="activator">
-		        </div>
-		        <div class="card-content">
+	<div class="row">
+		<div class="col m12 offset-m4">
+			<div ng-repeat="link in links" class="card small linkCard blue">
+		        <div>
 		          <span class="card-title activator grey-text text-darken-4"> {{link.title}} <i class="mdi-navigation-more-vert right"></i></span>
 		          <p><a href="http://{{link.url}}">{{link.url}}</a></p>
+		          
 		        </div>
+		        <!-- <div class="waves-effect waves-teal waves-block waves-light">
+		          <img class="activator" src="/images/coffee.jpg"  width="100%">
+		        </div> -->
+		        
 		        <div class="card-reveal">
 		          <span class="card-title grey-text text-darken-4">{{link.title}} <i class="mdi-navigation-close right"></i></span>
 		          <p>{{link.description}}</p>
 		        </div>
-		    </li>
+		    </div>
+		</div>
+	</div>
 
 
 	<!-- 			<div class="card panel-default generated" ng-repeat="link in links" >
@@ -28,5 +32,5 @@
 				  </div>
 				</div> -->
 		<!-- </div> -->
-	</ul>
+	</div>
 </div>
