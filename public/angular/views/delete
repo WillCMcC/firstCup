@@ -1,0 +1,19 @@
+  <form role="form" class="dropdown-content" ng-show="showLinkSubmitView" >
+    <!-- <div class="collapse" id="collapseExample" > -->
+
+        <div class="form-group">
+          <label for="URL">URL:</label>
+          <input ng-model="submission.url" class="form-control" id="URL">
+        </div>
+        <div class="form-group">
+          <label for="title">Title:</label>
+          <input ng-model="submission.title" class="form-control" id="title">
+        </div>
+        <div class="form-group">
+          <label for="description">Description:</label>
+          <input ng-model="submission.description" class="form-control" id="description">
+        </div>
+        <button type="submit" ng-click='submit(submission)' class="btn btn-default ">Submit</button>
+    <!-- </div> -->
+  </form>
+

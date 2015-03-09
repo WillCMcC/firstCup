@@ -32,14 +32,7 @@ app.controller("NavController", function($scope, LinkDb, $state){
 		LinkDb.postLink(submission);
 		$state.reload();
 	}
-	$scope.toggleLinkSubmitView = function(){
-		console.log($scope.showLinkSubmitView)
-		if( $scope.showLinkSubmitView === true ){
-			$scope.showLinkSubmitView = false;
-		} else {
-			$scope.showLinkSubmitView = true;
-		}
-	}
+	$('.modal-trigger').leanModal();
 })
 
 app.factory('LinkDb', function($http){
@@ -62,4 +55,9 @@ app.factory('LinkDb', function($http){
 		updateLinks: updateLinks,
 		postLink: postLink
 	}
+})
+
+$(document).on('ready', function(){
+	console.log('ready block')
+	$(".dropdown-button").dropdown();
 })

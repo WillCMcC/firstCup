@@ -1,21 +1,18 @@
-<div ng-controller="LinkSubmitController" class="submitBox">
-  <form role="form" class="submissionDiv" ng-show="showLinkSubmitView">
-    <!-- <div class="collapse" id="collapseExample" > -->
-      <div class="well" > 
-        <div class="form-group">
-          <label for="URL">URL:</label>
-          <input ng-model="submission.url" class="form-control" id="URL">
-        </div>
-        <div class="form-group">
-          <label for="title">Title:</label>
-          <input ng-model="submission.title" class="form-control" id="title">
-        </div>
-        <div class="form-group">
-          <label for="description">Description:</label>
-          <input ng-model="submission.description" class="form-control" id="description">
-        </div>
-        <button type="submit" ng-click='submit(submission)' class="btn btn-default ">Submit</button>
+
+<div ng-controller="NavController" class="submitBox modal" id='modal1'>
+  <form role="form" class="submissionDiv">
+      <div class="form-group">
+        <label for="URL">URL:</label>
+        <input ng-model="submission.url" class="form-control" id="URL">
       </div>
-    <!-- </div> -->
+      <div class="form-group">
+        <label for="title">Title:</label>
+        <input ng-model="submission.title" class="form-control" id="title">
+      </div>
+      <div class="form-group">
+        <label for="description">Description:</label>
+        <input ng-model="submission.description" class="form-control" id="description">
+      </div>
+      <button type="submit" ng-click='submit(submission)' class="btn btn-default ">Submit</button>
   </form>
 </div>
