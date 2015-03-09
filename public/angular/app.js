@@ -34,7 +34,7 @@ app.controller("LinkSubmitController", function($scope, LinkDb, $state){
 		$state.reload();
 	}
 	$scope.toggleLinkSubmitView = function(){
-		console.log($scope.links)
+		console.log($scope.showLinkSubmitView)
 		if( $scope.showLinkSubmitView === true ){
 			$scope.showLinkSubmitView = false;
 		} else {
