@@ -32,6 +32,10 @@ app.controller("NavController", function($scope, LinkDb, $state){
 		LinkDb.postLink(submission);
 		$state.reload();
 	}
+	$scope.refresh = function(submission){
+		console.log('refresh')
+		$state.reload();
+	}
 	$('.modal-trigger').leanModal();
 })
 

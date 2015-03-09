@@ -4,7 +4,7 @@
     <div class="nav-wrapper">
       <a href="#" class="brand-logo">First Cup</a>
       <ul id="nav-mobile" class="right hide-on-small-and-down">
-        <li class="waves-effect waves-light modal-trigger" href="#modal1"><a>Submit Link<i></i></a></li>
+        <li ng-click='refresh()'class="waves-effect waves-light modal-trigger" href="#modal1"><a>Submit Link<i></i></a></li>
         <li><a>Profile</a></li>
         <li><a>Logout</a></li>
       </ul>
@@ -39,7 +39,7 @@
         </div>
       </div>
   
-       <a ng-click='submit(submission)' class="waves-effect waves-teal btn-flat modal-close">Submit</a>
+       <a type="submit" ng-click='submit(submission)' class="waves-effect waves-teal btn-flat modal-close">Submit</a>
 
     </form>
 
