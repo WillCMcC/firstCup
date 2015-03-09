@@ -58,7 +58,7 @@ app.get('/bro', function(request, response){
 	// query db
 	LinkModel.find(function(err, links){
 		if (err) return console.log(error)
-		console.log(links);
+		console.log("You Win");
 		response.send(links);
 	});
 })
