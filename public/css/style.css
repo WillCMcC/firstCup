@@ -27,4 +27,8 @@
 	margin:auto;
 	min-width: 100%;
 }
-
+.linkCard{
+	margin:auto;
+	max-height: 20%;
+	max-width: 30%;
+}
