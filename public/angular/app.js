@@ -7,7 +7,6 @@ app.config(function($stateProvider, $httpProvider, $urlRouterProvider) {
 		.state('home', {
 		      url: "/home",
 		      views: {
-		        "linkSubmitView": { templateUrl: "angular/views/linkSubmitView.html" },
 		        "linksView": { templateUrl: "angular/views/linksView.html" },
 		        "navbar": { templateUrl: "angular/views/navBar.html" }
 		      }
@@ -25,7 +24,7 @@ app.controller('LinksController', function($scope, LinkDb){
 		});
 })
 
-app.controller("LinkSubmitController", function($scope, LinkDb, $state){
+app.controller("NavController", function($scope, LinkDb, $state){
 	$scope.submission = {};
 	$scope.submit = function(submission){
 		console.log(submission)
@@ -51,7 +50,7 @@ app.factory('LinkDb', function($http){
 		})
 	};
 	function postLink(submission){
-		$http({
+		return $http({
 			method: 'POST',
 			url: '/linkSubmit',
 			data: {submission: submission},
