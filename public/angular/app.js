@@ -13,7 +13,7 @@ app.config(function($stateProvider, $httpProvider, $urlRouterProvider) {
 		    })
 });
 
-app.controller('LinksController', function($scope, LinkDb){
+app.controller('LinksController', function($scope, LinkDb, $state){
 	//get array of link objects from db
 	// $scope.links should be an array of objects from linkmodels collection
 	console.log('in linkscontroller');
@@ -22,6 +22,12 @@ app.controller('LinksController', function($scope, LinkDb){
 	LinkDb.updateLinks().then(function(resp){
 			$scope.links = resp.data;
 		});
+	$scope.deleteLink = function(link){
+		// delete link from database
+		console.log(link)
+		LinkDb.deleteLink(link);
+		$state.reload();
+	}
 })
 
 app.controller("NavController", function($scope, LinkDb, $state){
@@ -47,6 +53,7 @@ app.factory('LinkDb', function($http){
 		})
 	};
 	function postLink(submission){
+		console.log(submission);
 		return $http({
 			method: 'POST',
 			url: '/linkSubmit',
@@ -54,10 +61,18 @@ app.factory('LinkDb', function($http){
 			dataType: 'application/json'
 		});
 	}
+	function deleteLink(link){
+		console.log(link)
+		return $http({
+			method: 'DELETE',
+			url: '/deleteLink?_id='+link._id
+		})
+	}
 
 	return {
 		updateLinks: updateLinks,
-		postLink: postLink
+		postLink: postLink,
+		deleteLink: deleteLink
 	}
 })
 
