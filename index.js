@@ -46,7 +46,7 @@ var linkSchema = new mongoose.Schema({
 // Schema to DB Model
 var LinkModel = mongoose.model('LinkModel', linkSchema);
 
-//save 
+//endpoints 
 app.post('/linkSubmit', function(req, res){
 	var submission = new LinkModel(req.body.submission);
 	submission.save(function(err, data){
@@ -61,3 +61,11 @@ app.get('/bro', function(request, response){
 		response.send(links);
 	});
 })
+app.delete('/deleteLInk', function(req, res){
+	console.log('in delete route');
+	LinkModel.find(req.body.link)
+		.remove( function(err, results){
+			console.log('inside remove callback');
+			console.log(req.body.link)
+		});
+	});
