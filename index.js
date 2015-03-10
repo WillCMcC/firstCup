@@ -62,10 +62,21 @@ app.get('/bro', function(request, response){
 	});
 })
 app.delete('/deleteLInk', function(req, res){
-	console.log('in delete route');
-	LinkModel.find(req.body.link)
+	console.log('in delete route')
+	console.log(req.url)
+	console.log(req.link)
+	var params = req.url.substring(req.url.indexOf('?') + 1 , req.url.indexOf('='))
+	var id = req.url.substring(req.url.indexOf('=')+1, req.url.length);
+	var link = {};
+	link[params] = id;
+	console.log(link);
+
+	LinkModel.find(link)
 		.remove( function(err, results){
 			console.log('inside remove callback');
-			console.log(req.body.link)
 		});
+
+	// LinkModel.remove(req.body, function(){
+	// 	console.log('removed?')
+	// });
 	});
