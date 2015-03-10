@@ -1,10 +1,13 @@
 <div ng-controller="LinksController">
 	<div class="row">
-		<div class="col m12 offset-m4">
-			<div ng-repeat="link in links" class=" card small linkCard blue  ">
+		<div class="col s12 ">
+			<div ng-repeat="link in links" class=" card large linkCard blue offset-s4 ">
 		        <div>
+		        	  <a ng-click="deleteLink(link)" class="btn-floating btn-small waves-effect waves-light red"><i class="mdi-content-clear"></i></a>
+
 		          <span class="card-title activator grey-text text-darken-4"> {{link.title}} <i class="mdi-navigation-more-vert right"></i></span>
 		          <p><a href="http://{{link.url}}">{{link.url}}</a></p>
+
 		          
 		        </div>
 		        <!-- <div class="waves-effect waves-teal waves-block waves-light">
