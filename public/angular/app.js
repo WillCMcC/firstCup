@@ -22,6 +22,10 @@ app.controller('LinksController', function($scope, LinkDb){
 	LinkDb.updateLinks().then(function(resp){
 			$scope.links = resp.data;
 		});
+	$scope.deleteLink = function(link){
+		// delete link from database
+		LinkDb.deleteLink(link);
+	}
 })
 
 app.controller("NavController", function($scope, LinkDb, $state){
@@ -54,10 +58,19 @@ app.factory('LinkDb', function($http){
 			dataType: 'application/json'
 		});
 	}
+	function deleteLink(link){
+		return $http({
+			method: 'DELETE',
+			url: '/deleteLink',
+			data: {link: link},
+			dataType: 'application/json'
+		})
+	}
 
 	return {
 		updateLinks: updateLinks,
-		postLink: postLink
+		postLink: postLink,
+		deleteLink: deleteLink
 	}
 })
 
