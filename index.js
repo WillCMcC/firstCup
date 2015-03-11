@@ -5,6 +5,7 @@ var port = 6969;
 var http = require("http");
 var express = require("express");
 var bodyParser = require("body-parser");
+var url = require("url");
 var mongoose = require("mongoose");
 var app = express();
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -46,10 +47,12 @@ var linkSchema = new mongoose.Schema({
 // Schema to DB Model
 var LinkModel = mongoose.model('LinkModel', linkSchema);
 
+
 //endpoints 
 app.post('/linkSubmit', function(req, res){
 	var submission = new LinkModel(req.body.submission);
 	submission.save(function(err, data){
+		console.log('in linkSubmit callback');
 		if (err) console.log(err);
 		console.log('Saved : ', data );
 	})
@@ -62,15 +65,8 @@ app.get('/bro', function(request, response){
 	});
 })
 app.delete('/deleteLInk', function(req, res){
-	console.log('in delete route')
-	console.log(req.url)
-	console.log(req.link)
-	var params = req.url.substring(req.url.indexOf('?') + 1 , req.url.indexOf('='))
-	var id = req.url.substring(req.url.indexOf('=')+1, req.url.length);
-	var link = {};
-	link[params] = id;
-	console.log(link);
-
+	// get id from url query
+	var link = { _id: req.query._id }; 
 	LinkModel.find(link)
 		.remove( function(err, results){
 			console.log('inside remove callback');
