@@ -28,10 +28,15 @@
 	min-width: 100%;
 }
 .linkCard{
-	max-width: 50%;
-	float:auto;
+	max-width: 100%;
+	margin:auto;
 }
 
 .linkDelete{
 	float:right;
 }
+.pushpinWrapper{
+	position:absolute;
+	top:50px;
+}
+
