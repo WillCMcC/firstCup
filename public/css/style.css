@@ -29,14 +29,21 @@
 }
 .linkCard{
 	max-width: 100%;
-	margin:auto;
+
 }
 
 .linkDelete{
 	float:right;
 }
 .pushpinWrapper{
-	position:absolute;
+	position:fixed;
 	top:50px;
+	right:50px;
+}
+
+.logowrapper{
+	position:fixed;
+	top:50%;
+	left:50px;
 }
 
