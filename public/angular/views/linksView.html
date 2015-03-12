@@ -1,26 +1,17 @@
 <div ng-controller="LinksController">
-	<div class="row">
-		<div class="col s12 ">
-			<div ng-repeat="link in links" class=" card large linkCard blue offset-s4 ">
-		        <div>
-		        	  <a ng-click="deleteLink(link)" class="btn-floating btn-small waves-effect waves-light red"><i class="mdi-content-clear"></i></a>
-
-		          <span class="card-title activator grey-text text-darken-4"> {{link.title}} <i class="mdi-navigation-more-vert right"></i></span>
-		          <p><a href="http://{{link.url}}">{{link.url}}</a></p>
-
-		          
+				<div ng-repeat="link in links" class=" card large linkCard grey lighten-2">
+		        	<a ng-click="deleteLink(link)" class="btn-floating btn-small waves-effect waves-light grey lighten-2"><i class="mdi-content-clear"></i></a>
+			        <span class="card-title activator grey-text text-darken-2 linker"> {{link.title}} <i class="mdi-navigation-more-vert right"></i></span>
+			        <p><a href="http://{{link.url}}">{{link.url}}</a></p>
+			        <!-- <div class="card-image waves-effect waves-teal waves-block waves-light">
+				        <img class="activator" src="/images/coffee.jpg"  width="100%">
+			        </div> -->
+			        <div class="card-reveal">
+				         <span class="card-title black-text text-darken-4">{{link.title}}<i class="mdi-navigation-close right"></i></span>
+				         <p>{{link.description}}</p>
+			        </div>
 		        </div>
-		        <!-- <div class="waves-effect waves-teal waves-block waves-light">
-		          <img class="activator" src="/images/coffee.jpg"  width="100%">
-		        </div> -->
-		        
-		        <div class="card-reveal">
-		          <span class="card-title grey-text text-darken-4">{{link.title}} <i class="mdi-navigation-close right"></i></span>
-		          <p>{{link.description}}</p>
-		        </div>
-		    </div>
-		</div>
-	</div>
+</div>
 
 
 	<!-- 			<div class="card panel-default generated" ng-repeat="link in links" >
@@ -35,5 +26,5 @@
 				  </div>
 				</div> -->
 		<!-- </div> -->
-	</div>
-</div>
+<!-- 	</div>
+</div> -->
