@@ -70,6 +70,10 @@ app.controller("AuthController", function($scope, $state, Mongo){
 			$state.go('home');
 		})
 	}
+	$scope.refresh = function(submission){
+		console.log('refresh')
+		$state.reload();
+	}
 })
 
 app.factory('Mongo', function($http){
