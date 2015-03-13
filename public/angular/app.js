@@ -63,6 +63,8 @@ app.controller("AuthController", function($scope, $state, Mongo){
 	$scope.signup = function(user){
 		if(confirmPassword(user.password, user.confirmPassword)){
 			Mongo.addUser(user);
+			console.log('success')
+			$state.reload();
 		}
 	}
 	$scope.signin = function(user){
