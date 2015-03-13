@@ -41,7 +41,8 @@ app.controller("NavController", function($scope, Mongo, $state){
 	$scope.submit = function(submission){
 		console.log(submission)
 		//save to db
-		Mongo.postLink(submission);
+		Mongo.postLink(submission)
+			.then(function(data){console.log('posted',data.data.response)})
 		$state.reload();
 	}
 	$scope.refresh = function(submission){
@@ -51,10 +52,25 @@ app.controller("NavController", function($scope, Mongo, $state){
 	$('.modal-trigger').leanModal();
 })
 
-app.controller("AuthController", function($scope, Mongo){
+app.controller("AuthController", function($scope, $state, Mongo){
 	$scope.user = {};
+	function confirmPassword(pass1, pass2){
+		if(pass1 === pass2){
+			return true;
+		}
+		return false;
+	}
 	$scope.signup = function(user){
-		Mongo.findUser(user);
+		if(confirmPassword(user.password, user.confirmPassword)){
+			Mongo.addUser(user);
+		}
+	}
+	$scope.signin = function(user){
+		console.log('scope signin',user)
+		Mongo.signin(user).then(function(){
+			console.log('should redirect now')
+			$state.go('home');
+		})
 	}
 	$scope.refresh = function(submission){
 		console.log('refresh')
@@ -85,14 +101,28 @@ app.factory('Mongo', function($http){
 			url: '/deleteLink?_id='+link._id
 		})
 	}
-	function findUser(user){
+	function addUser(user){
 		console.log(user);
 		return $http({
-			method: "GET",
-			url: '/api/users?username='+user.username,
+			method: "POST",
+			url: '/api/users/signup',
+			dataType: 'application/json',
+			data: {user: user}
 		}).then(function(resp){
 			console.log('success callback in finduser')
 			console.log(resp)
+		})
+	}
+	var user;
+	function signin(user){
+		console.log('factory')
+		return $http({
+			method: "POST",
+			url: '/api/users/signin',
+			dataType: 'application/json',
+			data: {user: user}			
+		}).then(function(resp){
+			user = {_id:resp.data._id}
 		})
 	}
 
@@ -100,7 +130,9 @@ app.factory('Mongo', function($http){
 		updateLinks: updateLinks,
 		postLink: postLink,
 		deleteLink: deleteLink,
-		findUser: findUser
+		addUser: addUser,
+		signin: signin,
+		user: user
 	}
 })
 
