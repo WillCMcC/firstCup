@@ -33,11 +33,12 @@ app.use(function(req, res, next) {
 
 //setting the session
 var session;
-app.use('/', function(req, res, next){
-	session = req.session;
-	session.user = "lima";
-	next();
-})
+
+// app.use('/', function(req, res, next){
+// 	session = req.session;
+// 	session.user = "lima";
+// 	next();
+// })
 
 
 
@@ -48,7 +49,7 @@ db.on('error', function (err) {
 	console.log('connection error', err);
 });
 db.once('open', function () {
-	console.log('connected.');
+	console.log('mongo connected...');
 });
 
 //Define Schema
@@ -62,18 +63,44 @@ var linkSchema = new mongoose.Schema({
 	submissionTime: { type : Date, default: Date.now },
 });
 
+var userSchema = new mongoose.Schema({
+	username: String,
+	password: String
+})
+
 // Schema to DB Model
 var LinkModel = mongoose.model('LinkModel', linkSchema);
-
+var UserModel = mongoose.model('User', userSchema)
 
 //endpoints 
+app.get('/api/users', function(req,res){
+	console.log("user",req.query)
+
+	var user = new UserModel(req.query);
+
+	UserModel.find(user, function(error, results){
+		if(error) console.log(error);
+		console.log("inside db callback")
+		console.log(results.length);
+		if(results.length === 0){
+			console.log('saving...')
+			user.save(function(err, data){
+				console.log('saved',data)
+			})
+		}
+	});
+
+
+})
 
 app.post('/linkSubmit', function(req, res){
+	var submission = new LinkModel(req.body.submission);
 	console.log('linksubmit')
 	session = req.session;
-	console.log(session.user)
-	var submission = new LinkModel(req.body.submission);
-	submission.viewedBy = [ session.user ];
+	if(session.user){
+		submission.user = session.user.username;
+		submission.postedBy = session.user.username;
+	};
 	submission.save(function(err, data){
 		console.log('in linkSubmit callback');
 		if (err) console.log(err);

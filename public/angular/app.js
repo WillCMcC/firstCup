@@ -19,29 +19,29 @@ app.config(function($stateProvider, $httpProvider, $urlRouterProvider) {
 		})
 });
 
-app.controller('LinksController', function($scope, LinkDb, $state){
+app.controller('LinksController', function($scope, Mongo, $state){
 	//get array of link objects from db
 	// $scope.links should be an array of objects from linkmodels collection
 	console.log('in linkscontroller');
 
 	// making ajax request
-	LinkDb.updateLinks().then(function(resp){
+	Mongo.updateLinks().then(function(resp){
 			$scope.links = resp.data;
 		});
 	$scope.deleteLink = function(link){
 		// delete link from database
 		console.log(link)
-		LinkDb.deleteLink(link);
+		Mongo.deleteLink(link);
 		$state.reload();
 	}
 })
 
-app.controller("NavController", function($scope, LinkDb, $state){
+app.controller("NavController", function($scope, Mongo, $state){
 	$scope.submission = {};
 	$scope.submit = function(submission){
 		console.log(submission)
 		//save to db
-		LinkDb.postLink(submission);
+		Mongo.postLink(submission);
 		$state.reload();
 	}
 	$scope.refresh = function(submission){
@@ -51,23 +51,16 @@ app.controller("NavController", function($scope, LinkDb, $state){
 	$('.modal-trigger').leanModal();
 })
 
-app.controller("AuthController", function($scope, $http){
+app.controller("AuthController", function($scope, Mongo){
 	$scope.user = {};
 	$scope.signup = function(user){
-		$http({
-			method: "GET",
-			url: '/auth/google'
-		}).success(function(){
-			console.log('success');
-		}).error(function(err){
-			console.log(err);
-		})
+		Mongo.findUser(user);
 
 
 	}
 })
 
-app.factory('LinkDb', function($http){
+app.factory('Mongo', function($http){
 	function updateLinks(){
 		return $http({
 			method: 'GET',
@@ -90,11 +83,22 @@ app.factory('LinkDb', function($http){
 			url: '/deleteLink?_id='+link._id
 		})
 	}
+	function findUser(user){
+		console.log(user);
+		return $http({
+			method: "GET",
+			url: '/api/users?username='+user.username,
+		}).then(function(resp){
+			console.log('success callback in finduser')
+			console.log(resp)
+		})
+	}
 
 	return {
 		updateLinks: updateLinks,
 		postLink: postLink,
-		deleteLink: deleteLink
+		deleteLink: deleteLink,
+		findUser: findUser
 	}
 })
 
