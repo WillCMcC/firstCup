@@ -6,6 +6,7 @@ var http = require("http");
 var express = require("express");
 var bodyParser = require("body-parser");
 var url = require("url");
+var bcrypt = require("bcrypt")
 // var passport = require('passport');
 var expressSession = require('express-session');
 var mongoose = require("mongoose");
@@ -73,24 +74,41 @@ var LinkModel = mongoose.model('LinkModel', linkSchema);
 var UserModel = mongoose.model('User', userSchema)
 
 //endpoints 
-app.get('/api/users', function(req,res){
-	console.log("user",req.query)
+app.post('/api/users/signup', function(req,res){
+	//store user signup info
+	// check db to see if user exists
+		//if yes
+			// tell user he can't have that name
+		// if no
+			// save user to db
 
-	var user = new UserModel(req.query);
-
-	UserModel.find(user, function(error, results){
-		if(error) console.log(error);
-		console.log("inside db callback")
-		console.log(results.length);
-		if(results.length === 0){
-			console.log('saving...')
-			user.save(function(err, data){
-				console.log('saved',data)
-			})
+	UserModel.find({username: req.body.user.username}, function(err, data){
+		if(data.length > 0){
+			console.log("already a user")
+			res.status(301).location('/#/home')
+		} else {
+			console.log("new user")
+			console.log(data)
+			var user = {
+				username: req.body.user.username
+			}
+			console.log('user pre hash',user)
+			console.log(req.body.user.password);
+			bcrypt.genSalt(10, function(err, salt) {
+				if(err) console.log(err);
+				bcrypt.hash(req.body.user.password, salt, function(err, hash){
+					if(err) console.log(err);
+					console.log(hash, typeof hash)
+					user.password = hash;
+					console.log('hashed',user)
+					var userModel = new UserModel(user);
+					userModel.save(function(err, data){
+						console.log('saved user', data)
+					})
+				})
+			});
 		}
-	});
-
-
+	})
 })
 
 app.post('/linkSubmit', function(req, res){
@@ -110,7 +128,7 @@ app.post('/linkSubmit', function(req, res){
 app.get('/bro', function(request, response){
 	// query db
 	LinkModel.find(function(err, links){
-		if (err) return console.log(error)
+		if (err) return console.log(err)
 		response.send(links);
 	});
 })

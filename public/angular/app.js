@@ -53,8 +53,17 @@ app.controller("NavController", function($scope, Mongo, $state){
 
 app.controller("AuthController", function($scope, Mongo){
 	$scope.user = {};
+	function confirmPassword(pass1, pass2){
+		if(pass1 === pass2){
+			return true;
+		}
+		return false;
+	}
 	$scope.signup = function(user){
-		Mongo.findUser(user);
+		if(confirmPassword(user.password, user.confirmPassword)){
+			Mongo.addUser(user);
+			
+		}
 
 
 	}
@@ -83,11 +92,13 @@ app.factory('Mongo', function($http){
 			url: '/deleteLink?_id='+link._id
 		})
 	}
-	function findUser(user){
+	function addUser(user){
 		console.log(user);
 		return $http({
-			method: "GET",
-			url: '/api/users?username='+user.username,
+			method: "POST",
+			url: '/api/users/signup',
+			dataType: 'application/json',
+			data: {user: user}
 		}).then(function(resp){
 			console.log('success callback in finduser')
 			console.log(resp)
@@ -98,7 +109,7 @@ app.factory('Mongo', function($http){
 		updateLinks: updateLinks,
 		postLink: postLink,
 		deleteLink: deleteLink,
-		findUser: findUser
+		addUser: addUser
 	}
 })
 
