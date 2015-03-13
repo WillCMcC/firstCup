@@ -1,0 +1,16 @@
+<script src="https://apis.google.com/js/client:platform.js" async defer></script>
+<div class='container' ng-controller="AuthController">
+	<input ng-model="user.username" placeholder="Username">
+	<input ng-model="user.password" placeholder="password">
+	<button ng-click="signup(user)">Sign up</button>
+	  <span id="signinButton">
+	    <span
+	      class="g-signin"
+	      data-callback="signinCallback"
+	      data-clientid="1001105846195-10tml99bfr7guv4v3nskebgo123jkp67.apps.googleusercontent.com"
+	      data-cookiepolicy="single_host_origin"
+	      data-requestvisibleactions="http://schema.org/AddAction"
+	      data-scope="https://www.googleapis.com/auth/plus.login">
+	    </span>
+	  </span>
+</div>

@@ -6,10 +6,13 @@ var http = require("http");
 var express = require("express");
 var bodyParser = require("body-parser");
 var url = require("url");
+// var passport = require('passport');
+var expressSession = require('express-session');
 var mongoose = require("mongoose");
 var app = express();
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+app.use(expressSession({secret:"secretverysecret"}));
 
 
 //Server
@@ -22,6 +25,21 @@ server.listen(port, function(){
 
 //Serving Static Files
 app.use(express.static(__dirname + '/public'));
+app.use(function(req, res, next) {  
+    res.header('Access-Control-Allow-Origin', 'http://localhost:6969');
+    next();
+});
+
+
+//setting the session
+var session;
+app.use('/', function(req, res, next){
+	session = req.session;
+	session.user = "lima";
+	next();
+})
+
+
 
 //Mongo Intialization
 mongoose.connect('mongodb://localhost/firstCup');
@@ -49,8 +67,13 @@ var LinkModel = mongoose.model('LinkModel', linkSchema);
 
 
 //endpoints 
+
 app.post('/linkSubmit', function(req, res){
+	console.log('linksubmit')
+	session = req.session;
+	console.log(session.user)
 	var submission = new LinkModel(req.body.submission);
+	submission.viewedBy = [ session.user ];
 	submission.save(function(err, data){
 		console.log('in linkSubmit callback');
 		if (err) console.log(err);
@@ -64,6 +87,7 @@ app.get('/bro', function(request, response){
 		response.send(links);
 	});
 })
+
 app.delete('/deleteLInk', function(req, res){
 	// get id from url query
 	var link = { _id: req.query._id }; 
@@ -71,8 +95,4 @@ app.delete('/deleteLInk', function(req, res){
 		.remove( function(err, results){
 			console.log('inside remove callback');
 		});
-
-	// LinkModel.remove(req.body, function(){
-	// 	console.log('removed?')
-	// });
 	});

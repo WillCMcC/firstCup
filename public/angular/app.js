@@ -5,12 +5,18 @@ app.config(function($stateProvider, $httpProvider, $urlRouterProvider) {
 	$urlRouterProvider.otherwise("/home");
 	$stateProvider
 		.state('home', {
-		      url: "/home",
-		      views: {
-		        "linksView": { templateUrl: "angular/views/linksView.html" },
-		        "navbar": { templateUrl: "angular/views/navBar.html" }
-		      }
-		    })
+			url: "/home",
+			views: {
+				"linksView": { templateUrl: "angular/views/linksView.html" },
+				"navbar": { templateUrl: "angular/views/navBar.html" }
+			}
+		})
+		.state('signup', {
+			url: "/signup",
+			views: {
+				"signupView": { templateUrl: "angular/views/signupView.html"}
+			}
+		})
 });
 
 app.controller('LinksController', function($scope, LinkDb, $state){
@@ -43,6 +49,22 @@ app.controller("NavController", function($scope, LinkDb, $state){
 		$state.reload();
 	}
 	$('.modal-trigger').leanModal();
+})
+
+app.controller("AuthController", function($scope, $http){
+	$scope.user = {};
+	$scope.signup = function(user){
+		$http({
+			method: "GET",
+			url: '/auth/google'
+		}).success(function(){
+			console.log('success');
+		}).error(function(err){
+			console.log(err);
+		})
+
+
+	}
 })
 
 app.factory('LinkDb', function($http){
@@ -80,3 +102,18 @@ $(document).on('ready', function(){
 	console.log('ready block')
 	$(".dropdown-button").dropdown();
 })
+
+window.signinCallback = function(authResult) {
+  if (authResult['status']['signed_in']) {
+    // Update the app to reflect a signed in user
+    // Hide the sign-in button now that the user is authorized, for example:
+    document.getElementById('signinButton').setAttribute('style', 'display: none');
+  } else {
+    // Update the app to reflect a signed out user
+    // Possible error values:
+    //   "user_signed_out" - User is signed-out
+    //   "access_denied" - User denied access to your app
+    //   "immediate_failed" - Could not automatically log in the user
+    console.log('Sign-in state: ' + authResult['error']);
+  }
+}
