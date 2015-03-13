@@ -181,6 +181,11 @@ app.get('/bro',function(request, response){
 	});
 })
 
+app.get('/logout', function(req, res){
+	req.session.destroy();
+	res.redirect('/#/main')
+})
+
 app.delete('/deleteLInk', function(req, res){
 	// get id from url query
 	var link = { _id: req.query._id }; 

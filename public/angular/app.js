@@ -113,6 +113,7 @@ app.factory('Mongo', function($http){
 			console.log(resp)
 		})
 	}
+	var user;
 	function signin(user){
 		console.log('factory')
 		return $http({
@@ -120,6 +121,8 @@ app.factory('Mongo', function($http){
 			url: '/api/users/signin',
 			dataType: 'application/json',
 			data: {user: user}			
+		}).then(function(resp){
+			user = {_id:resp.data._id}
 		})
 	}
 
@@ -128,7 +131,8 @@ app.factory('Mongo', function($http){
 		postLink: postLink,
 		deleteLink: deleteLink,
 		addUser: addUser,
-		signin: signin
+		signin: signin,
+		user: user
 	}
 })
 
