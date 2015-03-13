@@ -3,7 +3,11 @@
     <div class="pushpinWrapper">
       <div style="height: 1px;">
         <ul class="section table-of-contents">
-          <li><a ng-click='refresh()'class="waves-effect waves-light modal-trigger" href="#modal2">Sign In</a></li>
+          <!-- <div class='login-group login'> -->
+            <li><a class="waves-effect waves-light modal-trigger" href="#modal2">Sign In</a></li>
+            <li><a class="waves-effect waves-light modal-trigger" href="#modal2">Sign Up</a></li>
+            <div ui-view="auth"></div>
+          <!-- </div> -->
           <li><a ng-click='refresh()'class="waves-effect waves-light modal-trigger" href="/logout">Log Out</a></li>
           <li><a ng-click='refresh()'class="waves-effect waves-light modal-trigger" href="#modal1">Submit</a></li>
           <li><a href="/bro">Bro</a></li>

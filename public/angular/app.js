@@ -42,7 +42,7 @@ app.controller("NavController", function($scope, Mongo, $state){
 		console.log(submission)
 		//save to db
 		Mongo.postLink(submission)
-			.then(function(data){console.log(data.data.response)})
+			.then(function(data){console.log('posted',data.data.response)})
 		$state.reload();
 	}
 	$scope.refresh = function(submission){

@@ -121,6 +121,7 @@ app.post('/linkSubmit', ensureAuthenticated, function(req, res){
 		console.log('in linkSubmit callback');
 		if (err) console.log(err);
 		console.log('Saved : ', data );
+		res.status(201).end();
 	})
 })
 
@@ -198,7 +199,8 @@ app.delete('/deleteLInk', function(req, res){
 function ensureAuthenticated(req, res, next){
 	console.log('ensure...', req.session.user)
 	if(req.session.user){
+		console.log('authenticated')
 		next()
 	}
-	res.status(400).end();
+	res.status(400).end("not authenticated");
 }
