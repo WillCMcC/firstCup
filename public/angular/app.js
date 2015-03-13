@@ -55,8 +55,10 @@ app.controller("AuthController", function($scope, Mongo){
 	$scope.user = {};
 	$scope.signup = function(user){
 		Mongo.findUser(user);
-
-
+	}
+	$scope.refresh = function(submission){
+		console.log('refresh')
+		$state.reload();
 	}
 })
 
