@@ -5,7 +5,9 @@ var port = 6969;
 var http = require("http");
 var express = require("express");
 var bodyParser = require("body-parser");
+var parseurl = require("parseurl")
 var url = require("url");
+var util = require('./public/utility.js');
 var bcrypt = require("bcrypt")
 // var passport = require('passport');
 var expressSession = require('express-session');
@@ -13,7 +15,11 @@ var mongoose = require("mongoose");
 var app = express();
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-app.use(expressSession({secret:"secretverysecret"}));
+app.use(expressSession({
+	secret:"secretverysecret",
+	resave: false,
+	saveUninitialized: true
+}));
 
 
 //Server
@@ -73,7 +79,51 @@ var userSchema = new mongoose.Schema({
 var LinkModel = mongoose.model('LinkModel', linkSchema);
 var UserModel = mongoose.model('User', userSchema)
 
+//middleware
+// app.use('/linkSubmit', function(req, res, next){
+// 	console.log('middleware')
+// 	console.log(req.session)
+// 	if(req.session.user){
+// 		console.log(req.session.user)
+// 		next()
+// 	} else {
+// 		res.send({response: "You must be logged in"})
+// 	}
+// });
+
+app.use(function (req, res, next) {
+  var views = req.session.views
+
+  if (!views) {
+    views = req.session.views = {}
+  }
+
+  // get the url pathname
+  var pathname = parseurl(req).pathname
+
+  // count the views
+  views[pathname] = (views[pathname] || 0) + 1
+
+  next()
+})
+
 //endpoints 
+
+app.post('/linkSubmit', ensureAuthenticated, function(req, res){
+	var submission = new LinkModel(req.body.submission);
+	console.log('linksubmit')
+	user = req.session.user;
+	if(user){
+		submission.user = session.user.username;
+		submission.postedBy = session.user.username;
+	};
+	submission.save(function(err, data){
+		console.log('in linkSubmit callback');
+		if (err) console.log(err);
+		console.log('Saved : ', data );
+	})
+})
+
 app.post('/api/users/signup', function(req,res){
 // checks if a user exists, then adds a new user
 	UserModel.find({username: req.body.user.username}, function(err, data){
@@ -99,21 +149,21 @@ app.post('/api/users/signup', function(req,res){
 	})
 })
 app.post('/api/users/signin', function(req,res){
-	session = req.session;
+
 // checks if a user exists, then adds a new user
 	UserModel.find({username: req.body.user.username}, function(err, data){
 		if(data.length > 0){
 			console.log("already a user")
-			console.log(data)
-			bcrypt.compare(req.body.user.password, data[0].password, function(err, res){
+			bcrypt.compare(req.body.user.password, data[0].password, function(err, bool){
 				if( err ) console.log(err);
-				if(res){
+				if(bool){
 					// sign in!
-					session.user = data[0]._id;
-					console.log(session.user)
+					util.createSession(req, res, {_id: data[0]._id}, function(req, res){
+						console.log('signin route', req.session.user)
+						res.redirect('/#/main');
+					});
 				}
 			})
-			res.redirect('/');
 		} else {
 			// no user
 			console.log("cant find user")
@@ -121,22 +171,10 @@ app.post('/api/users/signin', function(req,res){
 	})
 })
 
-app.post('/linkSubmit', function(req, res){
-	var submission = new LinkModel(req.body.submission);
-	console.log('linksubmit')
-	session = req.session;
-	if(session.user){
-		submission.user = session.user.username;
-		submission.postedBy = session.user.username;
-	};
-	submission.save(function(err, data){
-		console.log('in linkSubmit callback');
-		if (err) console.log(err);
-		console.log('Saved : ', data );
-	})
-})
-app.get('/bro', function(request, response){
+app.get('/bro',function(request, response){
 	// query db
+	session = request.session;
+	console.log(request.session)
 	LinkModel.find(function(err, links){
 		if (err) return console.log(err)
 		response.send(links);
@@ -151,3 +189,11 @@ app.delete('/deleteLInk', function(req, res){
 			console.log('inside remove callback');
 		});
 	});
+
+function ensureAuthenticated(req, res, next){
+	console.log('ensure...', req.session.user)
+	if(req.session.user){
+		next()
+	}
+	res.status(400).end();
+}

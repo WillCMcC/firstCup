@@ -41,7 +41,8 @@ app.controller("NavController", function($scope, Mongo, $state){
 	$scope.submit = function(submission){
 		console.log(submission)
 		//save to db
-		Mongo.postLink(submission);
+		Mongo.postLink(submission)
+			.then(function(data){console.log(data.data.response)})
 		$state.reload();
 	}
 	$scope.refresh = function(submission){
@@ -65,6 +66,7 @@ app.controller("AuthController", function($scope, $state, Mongo){
 		}
 	}
 	$scope.signin = function(user){
+		console.log('scope signin',user)
 		Mongo.signin(user).then(function(){
 			console.log('should redirect now')
 			$state.go('home');
@@ -112,6 +114,7 @@ app.factory('Mongo', function($http){
 		})
 	}
 	function signin(user){
+		console.log('factory')
 		return $http({
 			method: "POST",
 			url: '/api/users/signin',

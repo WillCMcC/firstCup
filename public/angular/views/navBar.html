@@ -1,3 +1,4 @@
+  <div ng-controller="NavController">
     <div class="col hide-on-small-only m3 l2">
       <div class="pushpinWrapper">
         <div style="height: 1px;">
@@ -18,7 +19,7 @@
 
       </div>
     </div>
-
+</div>
 <div ng-controller="NavController" id="modal1" class="modal modal-fixed-footer">
   <div class="modal-content row">
     <div class="row">
@@ -42,7 +43,7 @@
             <label for="description">Description</label>
           </div>
         </div>
-        <a type="submit" ng-click='submit(submission)' class="waves-effect waves-teal btn-flat modal-close">Submit</a>
+        <a type="submit" ng-click='submit(submission)' class="waves-effect waves-teal btn-flat modal-close">Submit Link</a>
       </form>
     </div>
   </div>
@@ -66,7 +67,8 @@
             <label for="Title">Password</label>
           </div>
         </div>
-        <a type="submit" ng-click='signup(user)' class="waves-effect waves-teal btn-flat modal-close">Submit</a>
+        <a type="submit" ng-click='signup(user)' class="waves-effect waves-teal btn-flat modal-close">Sign Up</a>
+        <a type="submit" ng-click='signin(user)' class="waves-effect waves-teal btn-flat modal-close">Sign In</a>
       </form>
     </div>
   </div>
