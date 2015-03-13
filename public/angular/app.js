@@ -51,7 +51,7 @@ app.controller("NavController", function($scope, Mongo, $state){
 	$('.modal-trigger').leanModal();
 })
 
-app.controller("AuthController", function($scope, Mongo){
+app.controller("AuthController", function($scope, $state, Mongo){
 	$scope.user = {};
 	function confirmPassword(pass1, pass2){
 		if(pass1 === pass2){
@@ -62,10 +62,13 @@ app.controller("AuthController", function($scope, Mongo){
 	$scope.signup = function(user){
 		if(confirmPassword(user.password, user.confirmPassword)){
 			Mongo.addUser(user);
-			
 		}
-
-
+	}
+	$scope.signin = function(user){
+		Mongo.signin(user).then(function(){
+			console.log('should redirect now')
+			$state.go('home');
+		})
 	}
 })
 
@@ -104,12 +107,21 @@ app.factory('Mongo', function($http){
 			console.log(resp)
 		})
 	}
+	function signin(user){
+		return $http({
+			method: "POST",
+			url: '/api/users/signin',
+			dataType: 'application/json',
+			data: {user: user}			
+		})
+	}
 
 	return {
 		updateLinks: updateLinks,
 		postLink: postLink,
 		deleteLink: deleteLink,
-		addUser: addUser
+		addUser: addUser,
+		signin: signin
 	}
 })
 

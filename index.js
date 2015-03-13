@@ -75,38 +75,48 @@ var UserModel = mongoose.model('User', userSchema)
 
 //endpoints 
 app.post('/api/users/signup', function(req,res){
-	//store user signup info
-	// check db to see if user exists
-		//if yes
-			// tell user he can't have that name
-		// if no
-			// save user to db
-
+// checks if a user exists, then adds a new user
 	UserModel.find({username: req.body.user.username}, function(err, data){
 		if(data.length > 0){
 			console.log("already a user")
-			res.status(301).location('/#/home')
+			res.redirect('/');
 		} else {
-			console.log("new user")
-			console.log(data)
 			var user = {
 				username: req.body.user.username
 			}
-			console.log('user pre hash',user)
-			console.log(req.body.user.password);
 			bcrypt.genSalt(10, function(err, salt) {
 				if(err) console.log(err);
 				bcrypt.hash(req.body.user.password, salt, function(err, hash){
 					if(err) console.log(err);
-					console.log(hash, typeof hash)
 					user.password = hash;
-					console.log('hashed',user)
 					var userModel = new UserModel(user);
 					userModel.save(function(err, data){
-						console.log('saved user', data)
+						res.status(201).send(data);
 					})
 				})
 			});
+		}
+	})
+})
+app.post('/api/users/signin', function(req,res){
+	session = req.session;
+// checks if a user exists, then adds a new user
+	UserModel.find({username: req.body.user.username}, function(err, data){
+		if(data.length > 0){
+			console.log("already a user")
+			console.log(data)
+			bcrypt.compare(req.body.user.password, data[0].password, function(err, res){
+				if( err ) console.log(err);
+				if(res){
+					// sign in!
+					session.user = data[0]._id;
+					console.log(session.user)
+				}
+			})
+			res.redirect('/');
+		} else {
+			// no user
+			console.log("cant find user")
 		}
 	})
 })
