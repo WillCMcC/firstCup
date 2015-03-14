@@ -78,7 +78,7 @@ app.controller("AuthController", function($scope, $state, Mongo){
 	}
 })
 
-app.factory('Mongo', function($http){
+app.factory('Mongo', function($http, $window){
 	function updateLinks(){
 		return $http({
 			method: 'GET',
@@ -121,9 +121,17 @@ app.factory('Mongo', function($http){
 			url: '/api/users/signin',
 			dataType: 'application/json',
 			data: {user: user}			
-		}).then(function(resp){
-			user = {_id:resp.data._id}
 		})
+		.success(function(data, status, headers, config){
+			$window.sessionStorage.token = data.token;
+			console.log('check sessionStorage.token')
+		})
+		.error(function (data, status, headers, config) {
+			console.log("in error signin, ",data)
+		})
+		// .then(function(resp){
+		// 	user = {_id:resp.data._id}
+		// })
 	}
 
 	return {

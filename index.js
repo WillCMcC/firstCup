@@ -50,7 +50,7 @@ db.once('open', function () {
 // app.use(expressSession({
 // 	secret: 'secrettt',
 //     store: new MongoStore({ mongooseConnection: mongoose.connection })
-}));
+// }));
 
 //Define Schema
 var linkSchema = new mongoose.Schema({
@@ -75,6 +75,10 @@ var LinkModel = mongoose.model('LinkModel', linkSchema);
 var UserModel = mongoose.model('User', userSchema)
 
 // middleware
+var secret = "mmmsecret";
+app.use('/api', expressJwt({secret: secret}));
+
+
 app.use('/linkSubmit', function(req, res, next){
 	console.log('middleware')
 	console.log(req.session)
@@ -153,10 +157,19 @@ app.post('/api/users/signin', function(req,res){
 						// console.log('signin route', req.session.user)
 						// res.redirect('/#/main');
 					// });
-					req.session.user = data[0]._id;
-					console.log(req.session.user);
+					// req.session.user = data[0]._id;
+					// console.log(req.session.user);
+					var profile = {
+						firstName: data[0].firstName,
+						lastName: data[0].lastName,
+						_id: data[0]._id
+					}
+					var token = jwt.sign(profile, secret, { expiresInMinutes: 60*5 });
+
+					res.json({ token: token });
+					console.log(token)
 					console.log("^ shouldb be signed in");
-					res.status(201).end();
+					// res.status(201).end();
 				}
 			})
 		} else {
