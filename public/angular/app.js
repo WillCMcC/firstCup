@@ -63,6 +63,8 @@ app.controller("AuthController", function($scope, $state, Mongo){
 	$scope.signup = function(user){
 		if(confirmPassword(user.password, user.confirmPassword)){
 			Mongo.addUser(user);
+			console.log('success')
+			$state.reload();
 		}
 	}
 	$scope.signin = function(user){
@@ -148,6 +150,10 @@ $(document).on('ready', function(){
 	console.log('ready block')
 	$(".dropdown-button").dropdown();
 })
+$(document).ready(function(){
+      $('.parallax').parallax();
+    });
+
 
 window.signinCallback = function(authResult) {
   if (authResult['status']['signed_in']) {
