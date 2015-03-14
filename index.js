@@ -188,7 +188,7 @@ app.get('/bro',function(request, response){
 })
 
 app.get('/logout', function(req, res){
-	req.session.destroy();
+    // delete $window.sessionStorage.token;
 	res.redirect('/#/main')
 })
 

@@ -49,6 +49,13 @@ app.controller("NavController", function($scope, Mongo, $state){
 		console.log('refresh')
 		$state.reload();
 	}
+	$scope.signin = function(user){
+		console.log('scope signin',user)
+		Mongo.signin(user).then(function(){
+			console.log('should redirect now')
+			$state.go('home');
+		})
+	}
 	$('.modal-trigger').leanModal();
 })
 
