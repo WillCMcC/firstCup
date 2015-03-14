@@ -10,16 +10,15 @@ var url = require("url");
 var util = require('./public/utility.js');
 var bcrypt = require("bcrypt")
 // var passport = require('passport');
-var expressSession = require('express-session');
+var expressJwt = require('express-jwt');
+var jwt = require('jsonwebtoken');
+// var expressSession = require('express-session');
 var mongoose = require("mongoose");
+// var MongoStore = require('connect-mongo')(expressSession);
 var app = express();
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-app.use(expressSession({
-	secret:"secretverysecret",
-	resave: false,
-	saveUninitialized: true
-}));
+
 
 
 //Server
@@ -38,17 +37,6 @@ app.use(function(req, res, next) {
 });
 
 
-//setting the session
-var session;
-
-// app.use('/', function(req, res, next){
-// 	session = req.session;
-// 	session.user = "lima";
-// 	next();
-// })
-
-
-
 //Mongo Intialization
 mongoose.connect('mongodb://localhost/firstCup');
 var db = mongoose.connection;
@@ -58,6 +46,11 @@ db.on('error', function (err) {
 db.once('open', function () {
 	console.log('mongo connected...');
 });
+
+// app.use(expressSession({
+// 	secret: 'secrettt',
+//     store: new MongoStore({ mongooseConnection: mongoose.connection })
+}));
 
 //Define Schema
 var linkSchema = new mongoose.Schema({
@@ -72,44 +65,41 @@ var linkSchema = new mongoose.Schema({
 
 var userSchema = new mongoose.Schema({
 	username: String,
-	password: String
+	password: String,
+	firstName: String,
+	lastName: String
 })
 
 // Schema to DB Model
 var LinkModel = mongoose.model('LinkModel', linkSchema);
 var UserModel = mongoose.model('User', userSchema)
 
-//middleware
-// app.use('/linkSubmit', function(req, res, next){
-// 	console.log('middleware')
-// 	console.log(req.session)
-// 	if(req.session.user){
-// 		console.log(req.session.user)
-// 		next()
-// 	} else {
-// 		res.send({response: "You must be logged in"})
-// 	}
-// });
+// middleware
+app.use('/linkSubmit', function(req, res, next){
+	console.log('middleware')
+	console.log(req.session)
+	if(req.session.user){
+		console.log(req.session.user)
+		next()
+	} else {
+		res.send({response: "You must be logged in"})
+	}
+});
 
+//counting views for each route
 app.use(function (req, res, next) {
   var views = req.session.views
-
   if (!views) {
     views = req.session.views = {}
   }
-
-  // get the url pathname
   var pathname = parseurl(req).pathname
-
-  // count the views
   views[pathname] = (views[pathname] || 0) + 1
-
   next()
 })
 
 //endpoints 
 
-app.post('/linkSubmit', ensureAuthenticated, function(req, res){
+app.post('/linkSubmit', function(req, res){
 	var submission = new LinkModel(req.body.submission);
 	console.log('linksubmit')
 	user = req.session.user;
@@ -159,10 +149,14 @@ app.post('/api/users/signin', function(req,res){
 				if( err ) console.log(err);
 				if(bool){
 					// sign in!
-					util.createSession(req, res, {_id: data[0]._id}, function(req, res){
-						console.log('signin route', req.session.user)
-						res.redirect('/#/main');
-					});
+					// util.createSession(req, res, {_id: data[0]._id}, function(req, res){
+						// console.log('signin route', req.session.user)
+						// res.redirect('/#/main');
+					// });
+					req.session.user = data[0]._id;
+					console.log(req.session.user);
+					console.log("^ shouldb be signed in");
+					res.status(201).end();
 				}
 			})
 		} else {
@@ -173,12 +167,10 @@ app.post('/api/users/signin', function(req,res){
 })
 
 app.get('/bro',function(request, response){
-	// query db
-	session = request.session;
-	console.log(request.session)
+	// query db for all links
 	LinkModel.find(function(err, links){
 		if (err) return console.log(err)
-		response.send(links);
+		response.status(200).send(links);
 	});
 })
 
