@@ -4,7 +4,7 @@
       <div style="height: 1px;">
         <ul class="section table-of-contents">
           <!-- <div class='login-group login'> -->
-            <li><a class="waves-effect waves-light modal-trigger" href="#modal2">Sign In</a></li>
+            <li><a class="waves-effect waves-light modal-trigger" href="#modal3">Sign In</a></li>
             <li><a class="waves-effect waves-light modal-trigger" href="#modal2">Sign Up</a></li>
             <div ui-view="auth"></div>
           <!-- </div> -->
@@ -70,7 +70,35 @@
             <label for="Title">Password</label>
           </div>
         </div>
+        <div class="row">
+          <div class="input-field col s12">
+            <input ng-model="user.confirmPassword" id="confirmPassword"  type="text" class="text">
+            <label for="Title">Confirm Password</label>
+          </div>
+        </div>
         <a type="submit" ng-click='signup(user)' class="waves-effect waves-teal btn-flat modal-close">Sign Up</a>
+      </form>
+    </div>
+  </div>
+</div>
+<div ng-controller="AuthController" id="modal3" class="modal modal-fixed-footer">
+  <div class="modal-content row">
+    <div class="row">
+      <form class="col s12">
+        <div class="row">
+          <div class="row">
+            <div class="input-field col s12">
+              <input ng-model="user.username" id="username" type="text" class="validate">
+              <label for="url">Username</label>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="input-field col s12">
+            <input ng-model="user.password" id="password"  type="text" class="validate">
+            <label for="Title">Password</label>
+          </div>
+        </div>
         <a type="submit" ng-click='signin(user)' class="waves-effect waves-teal btn-flat modal-close">Sign In</a>
       </form>
     </div>
