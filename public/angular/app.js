@@ -142,6 +142,10 @@ $(document).on('ready', function(){
 	console.log('ready block')
 	$(".dropdown-button").dropdown();
 })
+$(document).ready(function(){
+      $('.parallax').parallax();
+    });
+
 
 window.signinCallback = function(authResult) {
   if (authResult['status']['signed_in']) {
