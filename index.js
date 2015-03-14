@@ -106,11 +106,11 @@ app.use('/linkSubmit', expressJwt({secret: secret}));
 app.post('/linkSubmit', function(req, res){
 	var submission = new LinkModel(req.body.submission);
 	console.log('linksubmit')
-	user = req.session.user;
-	if(user){
-		submission.user = session.user.username;
-		submission.postedBy = session.user.username;
-	};
+	// user = req.session.user;
+	// if(user){
+	// 	submission.user = session.user.username;
+	// 	submission.postedBy = session.user.username;
+	// };
 	submission.save(function(err, data){
 		console.log('in linkSubmit callback');
 		if (err) console.log(err);
