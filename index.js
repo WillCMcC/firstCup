@@ -76,30 +76,30 @@ var UserModel = mongoose.model('User', userSchema)
 
 // middleware
 var secret = "mmmsecret";
-app.use('/api', expressJwt({secret: secret}));
+app.use('/linkSubmit', expressJwt({secret: secret}));
 
 
-app.use('/linkSubmit', function(req, res, next){
-	console.log('middleware')
-	console.log(req.session)
-	if(req.session.user){
-		console.log(req.session.user)
-		next()
-	} else {
-		res.send({response: "You must be logged in"})
-	}
-});
+// app.use('/linkSubmit', function(req, res, next){
+// 	console.log('middleware')
+// 	console.log(req.session)
+// 	if(req.session.user){
+// 		console.log(req.session.user)
+// 		next()
+// 	} else {
+// 		res.send({response: "You must be logged in"})
+// 	}
+// });
 
 //counting views for each route
-app.use(function (req, res, next) {
-  var views = req.session.views
-  if (!views) {
-    views = req.session.views = {}
-  }
-  var pathname = parseurl(req).pathname
-  views[pathname] = (views[pathname] || 0) + 1
-  next()
-})
+// app.use(function (req, res, next) {
+//   var views = req.session.views
+//   if (!views) {
+//     views = req.session.views = {}
+//   }
+//   var pathname = parseurl(req).pathname
+//   views[pathname] = (views[pathname] || 0) + 1
+//   next()
+// })
 
 //endpoints 
 
