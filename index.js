@@ -79,28 +79,6 @@ var secret = "mmmsecret";
 app.use('/linkSubmit', expressJwt({secret: secret}));
 
 
-// app.use('/linkSubmit', function(req, res, next){
-// 	console.log('middleware')
-// 	console.log(req.session)
-// 	if(req.session.user){
-// 		console.log(req.session.user)
-// 		next()
-// 	} else {
-// 		res.send({response: "You must be logged in"})
-// 	}
-// });
-
-//counting views for each route
-// app.use(function (req, res, next) {
-//   var views = req.session.views
-//   if (!views) {
-//     views = req.session.views = {}
-//   }
-//   var pathname = parseurl(req).pathname
-//   views[pathname] = (views[pathname] || 0) + 1
-//   next()
-// })
-
 //endpoints 
 
 app.post('/linkSubmit', function(req, res){
@@ -149,16 +127,10 @@ app.post('/api/users/signin', function(req,res){
 	UserModel.find({username: req.body.user.username}, function(err, data){
 		if(data.length > 0){
 			console.log("already a user")
-			bcrypt.compare(req.body.user.password, data[0].password, function(err, bool){
+			bcrypt.compare(req.body.user.password, data[0].password, function(err, valid){
 				if( err ) console.log(err);
-				if(bool){
-					// sign in!
-					// util.createSession(req, res, {_id: data[0]._id}, function(req, res){
-						// console.log('signin route', req.session.user)
-						// res.redirect('/#/main');
-					// });
-					// req.session.user = data[0]._id;
-					// console.log(req.session.user);
+				if(valid){
+	
 					var profile = {
 						firstName: data[0].firstName,
 						lastName: data[0].lastName,
@@ -202,8 +174,7 @@ app.delete('/deleteLInk', function(req, res){
 	});
 
 function ensureAuthenticated(req, res, next){
-	console.log('ensure...', req.session.user)
-	if(req.session.user){
+	if(req.user){
 		console.log('authenticated')
 		next()
 	}
