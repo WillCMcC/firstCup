@@ -104,14 +104,15 @@ app.post('/api/users/signup', function(req,res){
 			console.log("already a user")
 			res.redirect('/');
 		} else {
-			var user = {
-				username: req.body.user.username
-			}
+			var user = req.body.user;
 			bcrypt.genSalt(10, function(err, salt) {
 				if(err) console.log(err);
 				bcrypt.hash(req.body.user.password, salt, function(err, hash){
 					if(err) console.log(err);
+					console.log("check here 112")
+					console.log(user)
 					user.password = hash;
+					console.log(user);
 					var userModel = new UserModel(user);
 					userModel.save(function(err, data){
 						res.status(201).send(data);
