@@ -19,7 +19,7 @@ app.config(function($stateProvider, $httpProvider, $urlRouterProvider) {
 		})
 });
 
-app.controller('LinksController', function($scope, Mongo, $state){
+app.controller('LinksController', function($scope, Mongo, $state, $window){
 	//get array of link objects from db
 	// $scope.links should be an array of objects from linkmodels collection
 	console.log('in linkscontroller');
@@ -34,9 +34,13 @@ app.controller('LinksController', function($scope, Mongo, $state){
 		Mongo.deleteLink(link);
 		$state.reload();
 	}
+	console.log(window.sessionStorage);
+	if( window.sessionStorage.length !=0){
+		$scope.tester = true; 
+	}	
 })
 
-app.controller("NavController", function($scope, Mongo, $state){
+app.controller("NavController", function($scope, Mongo, $state, $window){
 	$scope.submission = {};
 	$scope.submit = function(submission){
 		console.log(submission)
@@ -56,10 +60,19 @@ app.controller("NavController", function($scope, Mongo, $state){
 			$state.go('home');
 		})
 	}
+	if($window.sessionStorage){
+		$scope.authorized = true;
+	}
+	$scope.logout = function()
+	{
+		console.log('test')
+		delete window.sessionStorage.token;
+		$state.reload();
+	}
 	$('.modal-trigger').leanModal();
 })
 
-app.controller("AuthController", function($scope, $state, Mongo){
+app.controller("AuthController", function($scope, $state, Mongo, $window){
 	$scope.user = {};
 	function confirmPassword(pass1, pass2){
 		if(pass1 === pass2){
