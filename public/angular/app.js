@@ -52,22 +52,26 @@ app.controller("NavController", function($scope, Mongo, $state){
 	$scope.signin = function(user){
 		console.log('scope signin',user)
 		Mongo.signin(user).then(function(){
-			console.log('should redirect now')
+			console.log('should redirect now');
+			$scope.user = user;
 			$state.go('home');
 		})
 	}
 	$('.modal-trigger').leanModal();
+
+	// if(!$scope.user){
+	// 	// debugger;
+	// 	$scope.user = Mongo.getUser();
+	// }
 })
 
 app.controller("AuthController", function($scope, $state, Mongo){
 	$scope.user = {};
 	function confirmPassword(pass1, pass2){
-		if(pass1 === pass2){
-			return true;
-		}
-		return false;
+		return pass1 === pass2 ? true : false;
 	}
 	$scope.signup = function(user){
+		debugger;
 		if(confirmPassword(user.password, user.confirmPassword)){
 			Mongo.addUser(user);
 			console.log('success')
@@ -77,7 +81,6 @@ app.controller("AuthController", function($scope, $state, Mongo){
 	$scope.signin = function(user){
 		console.log('scope signin',user)
 		Mongo.signin(user).then(function(){
-			console.log('should redirect now')
 			$state.go('home');
 		})
 	}
@@ -133,19 +136,20 @@ app.factory('Mongo', function($http, $window){
 	}
 	function addUser(user){
 		console.log(user);
-		return $http({
+		$http({
 			method: "POST",
 			url: '/api/users/signup',
 			dataType: 'application/json',
 			data: {user: user}
-		}).then(function(resp){
+		}).success(function(resp){
 			console.log('success callback in finduser')
 			console.log(resp)
+		}).error(function(e){
+			console.log(e)
 		})
 	}
-	var user;
 	function signin(user){
-		console.log('factory')
+		console.log('sending post...');
 		return $http({
 			method: "POST",
 			url: '/api/users/signin',
@@ -163,16 +167,28 @@ app.factory('Mongo', function($http, $window){
 		// 	user = {_id:resp.data._id}
 		// })
 	}
-
+	function getUser(){
+		console.log('get user');
+		console.log($window.sessionStorage.token)
+		return $http({
+			method: 'GET',
+			url: '/getUser?token='+$window.sessionStorage.token
+		})
+		.success(function(data){
+			console.log('got user');
+			console.log(data);
+		})
+	}
 	return {
 		updateLinks: updateLinks,
 		postLink: postLink,
 		deleteLink: deleteLink,
 		addUser: addUser,
 		signin: signin,
-		user: user
+		getUser: getUser
 	}
-})
+});
+
 
 $(document).on('ready', function(){
 	console.log('ready block')
