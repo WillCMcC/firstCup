@@ -91,7 +91,7 @@ app.controller("AuthController", function($scope, $state, Mongo, $window){
 		console.log('scope signin',user)
 		Mongo.signin(user).then(function(){
 			console.log('should redirect now')
-			$state.go('home');
+			$state.reload();
 		})
 	}
 	$scope.refresh = function(submission){
@@ -181,6 +181,7 @@ app.factory('Mongo', function($http, $window){
 		// 	user = {_id:resp.data._id}
 		// })
 	}
+	
 
 	return {
 		updateLinks: updateLinks,

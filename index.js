@@ -67,7 +67,8 @@ var userSchema = new mongoose.Schema({
 	username: String,
 	password: String,
 	firstName: String,
-	lastName: String
+	lastName: String,
+	dateCreated: { type : Date, default: Date.now },
 })
 
 // Schema to DB Model
