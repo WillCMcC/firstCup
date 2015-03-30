@@ -23,7 +23,7 @@ app.controller('LinksController', function($scope, Mongo, $state, $window){
 	//get array of link objects from db
 	// $scope.links should be an array of objects from linkmodels collection
 	console.log('in linkscontroller');
-
+	$scope.user = {username: "willcmcc"}
 	// making ajax request
 	Mongo.updateLinks().then(function(resp){
 			$scope.links = resp.data;
@@ -157,7 +157,12 @@ app.factory('Mongo', function($http, $window){
 		})
 	}
 	var user;
+	function getUser(){
+		return user;
+	}
 	function signin(user){
+		debugger;
+		user = user;
 		console.log('factory')
 		return $http({
 			method: "POST",
@@ -183,16 +188,17 @@ app.factory('Mongo', function($http, $window){
 		deleteLink: deleteLink,
 		addUser: addUser,
 		signin: signin,
-		user: user
+		user: getUser
 	}
 })
 
 $(document).on('ready', function(){
 	console.log('ready block')
 	$(".dropdown-button").dropdown();
+     $('.parallax').parallax();
+
 })
 $(document).ready(function(){
-      $('.parallax').parallax();
     });
 
 
