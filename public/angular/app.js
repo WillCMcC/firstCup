@@ -23,7 +23,6 @@ app.controller('LinksController', function($scope, Mongo, $state, $window){
 	//get array of link objects from db
 	// $scope.links should be an array of objects from linkmodels collection
 	console.log('in linkscontroller');
-	$scope.user = {username: "willcmcc"}
 	// making ajax request
 	Mongo.updateLinks().then(function(resp){
 			$scope.links = resp.data;
@@ -35,9 +34,15 @@ app.controller('LinksController', function($scope, Mongo, $state, $window){
 		$state.reload();
 	}
 	console.log(window.sessionStorage);
-	if( window.sessionStorage.length !=0){
-		$scope.tester = true; 
-	}	
+	$scope.user = {username: "willcmcc"};
+	if(window.sessionStorage.length = 0){
+		$scope.tester = false;
+		console.log("no token");
+	}
+	if( window.sessionStorage.length != 0){
+		console.log("inside token");
+		$scope.tester = true;
+	}
 })
 
 app.controller("NavController", function($scope, Mongo, $state, $window){
@@ -59,9 +64,6 @@ app.controller("NavController", function($scope, Mongo, $state, $window){
 			console.log('should redirect now')
 			$state.go('home');
 		})
-	}
-	if($window.sessionStorage){
-		$scope.authorized = true;
 	}
 	$scope.logout = function()
 	{
@@ -161,7 +163,6 @@ app.factory('Mongo', function($http, $window){
 		return user;
 	}
 	function signin(user){
-		debugger;
 		user = user;
 		console.log('factory')
 		return $http({
@@ -173,6 +174,7 @@ app.factory('Mongo', function($http, $window){
 		.success(function(data, status, headers, config){
 			$window.sessionStorage.token = data.token;
 			console.log('check sessionStorage.token')
+			signedIn = true;
 		})
 		.error(function (data, status, headers, config) {
 			console.log("in error signin, ",data)
@@ -181,7 +183,7 @@ app.factory('Mongo', function($http, $window){
 		// 	user = {_id:resp.data._id}
 		// })
 	}
-	
+
 
 	return {
 		updateLinks: updateLinks,
@@ -189,7 +191,7 @@ app.factory('Mongo', function($http, $window){
 		deleteLink: deleteLink,
 		addUser: addUser,
 		signin: signin,
-		user: getUser
+		user: getUser,
 	}
 })
 
