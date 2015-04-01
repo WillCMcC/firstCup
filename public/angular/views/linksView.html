@@ -1,4 +1,10 @@
+
 <div ng-controller="LinksController">
+	 <div ng-show="tester"=>
+	 	<div class=" card small  blue lighten-2">
+    <t1 ng-model="user"> Hey {{user.username}}</t1>
+  </div>  
+  </div>
 	<div ng-repeat="link in links" class=" card large linkCard grey lighten-2">
     	<a ng-click="deleteLink(link)" class="btn-floating btn-small waves-effect waves-light grey lighten-2"><i class="mdi-content-clear"></i></a>
         <span class="card-title activator grey-text text-darken-2 linker"> {{link.title}} <i class="mdi-navigation-more-vert right"></i></span>

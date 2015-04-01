@@ -19,11 +19,10 @@ app.config(function($stateProvider, $httpProvider, $urlRouterProvider) {
 		})
 });
 
-app.controller('LinksController', function($scope, Mongo, $state){
+app.controller('LinksController', function($scope, Mongo, $state, $window){
 	//get array of link objects from db
 	// $scope.links should be an array of objects from linkmodels collection
 	console.log('in linkscontroller');
-
 	// making ajax request
 	Mongo.updateLinks().then(function(resp){
 			$scope.links = resp.data;
@@ -34,9 +33,19 @@ app.controller('LinksController', function($scope, Mongo, $state){
 		Mongo.deleteLink(link);
 		$state.reload();
 	}
+	console.log(window.sessionStorage);
+	$scope.user = {username: "willcmcc"};
+	if(window.sessionStorage.length = 0){
+		$scope.tester = false;
+		console.log("no token");
+	}
+	if( window.sessionStorage.length != 0){
+		console.log("inside token");
+		$scope.tester = true;
+	}
 })
 
-app.controller("NavController", function($scope, Mongo, $state){
+app.controller("NavController", function($scope, Mongo, $state, $window){
 	$scope.submission = {};
 	$scope.submit = function(submission){
 		console.log(submission)
@@ -57,6 +66,12 @@ app.controller("NavController", function($scope, Mongo, $state){
 			$state.go('home');
 		})
 	}
+	$scope.logout = function()
+	{
+		console.log('test')
+		delete window.sessionStorage.token;
+		$state.reload();
+	}
 	$('.modal-trigger').leanModal();
 
 	// if(!$scope.user){
@@ -65,7 +80,7 @@ app.controller("NavController", function($scope, Mongo, $state){
 	// }
 })
 
-app.controller("AuthController", function($scope, $state, Mongo){
+app.controller("AuthController", function($scope, $state, Mongo, $window){
 	$scope.user = {};
 	function confirmPassword(pass1, pass2){
 		return pass1 === pass2 ? true : false;
@@ -81,7 +96,12 @@ app.controller("AuthController", function($scope, $state, Mongo){
 	$scope.signin = function(user){
 		console.log('scope signin',user)
 		Mongo.signin(user).then(function(){
+<<<<<<< HEAD
 			$state.go('home');
+=======
+			console.log('should redirect now')
+			$state.reload();
+>>>>>>> 3ddaf426aa3060d3604935cdbdedb690159581a5
 		})
 	}
 	$scope.refresh = function(submission){
@@ -148,8 +168,18 @@ app.factory('Mongo', function($http, $window){
 			console.log(e)
 		})
 	}
+<<<<<<< HEAD
 	function signin(user){
 		console.log('sending post...');
+=======
+	var user;
+	function getUser(){
+		return user;
+	}
+	function signin(user){
+		user = user;
+		console.log('factory')
+>>>>>>> 3ddaf426aa3060d3604935cdbdedb690159581a5
 		return $http({
 			method: "POST",
 			url: '/api/users/signin',
@@ -159,6 +189,7 @@ app.factory('Mongo', function($http, $window){
 		.success(function(data, status, headers, config){
 			$window.sessionStorage.token = data.token;
 			console.log('check sessionStorage.token')
+			signedIn = true;
 		})
 		.error(function (data, status, headers, config) {
 			console.log("in error signin, ",data)
@@ -167,6 +198,7 @@ app.factory('Mongo', function($http, $window){
 		// 	user = {_id:resp.data._id}
 		// })
 	}
+<<<<<<< HEAD
 	function getUser(){
 		console.log('get user');
 		console.log($window.sessionStorage.token)
@@ -179,13 +211,21 @@ app.factory('Mongo', function($http, $window){
 			console.log(data);
 		})
 	}
+=======
+
+
+>>>>>>> 3ddaf426aa3060d3604935cdbdedb690159581a5
 	return {
 		updateLinks: updateLinks,
 		postLink: postLink,
 		deleteLink: deleteLink,
 		addUser: addUser,
 		signin: signin,
+<<<<<<< HEAD
 		getUser: getUser
+=======
+		user: getUser,
+>>>>>>> 3ddaf426aa3060d3604935cdbdedb690159581a5
 	}
 });
 
@@ -193,9 +233,10 @@ app.factory('Mongo', function($http, $window){
 $(document).on('ready', function(){
 	console.log('ready block')
 	$(".dropdown-button").dropdown();
+     $('.parallax').parallax();
+
 })
 $(document).ready(function(){
-      $('.parallax').parallax();
     });
 
 

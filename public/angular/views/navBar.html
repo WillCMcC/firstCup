@@ -1,15 +1,19 @@
 <div ng-controller="NavController">
+  <div ng-show="tester"=>
+    <h1 ng-model="user"> Hey {{user.username}}</h1>
+  </div>
   <div class="col hide-on-small-only m3 l2">
     <div class="pushpinWrapper">
       <div style="height: 1px;">
         <h4> HELLO user: {{user.username}} </h2>
         <ul class="section table-of-contents">
           <!-- <div class='login-group login'> -->
-            <li><a ng-click='refresh()' class="waves-effect waves-light modal-trigger" href="#modal3">Sign In</a></li>
+            <li><a ng-click='refresh()' class="waves-effect waves-light modal-trigger" href="#modal3" >Sign In</a></li>
             <li><a ng-click='refresh()' class="waves-effect waves-light modal-trigger" href="#modal2">Sign Up</a></li>
             <!-- <div ui-view="auth"></div> -->
           <!-- </div> -->
-          <li><a ng-click='refresh()'class="waves-effect waves-light modal-trigger" href="/logout">Log Out</a></li>
+          <li><a ng-click='logout()'class="waves-effect waves-light">Log Out</a></li>
+
           <li><a ng-click='refresh()'class="waves-effect waves-light modal-trigger" href="#modal1">Submit</a></li>
           <li><a href="/bro">Bro</a></li>
           <li><a href="#options">Options</a></li>
