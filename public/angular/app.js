@@ -96,12 +96,8 @@ app.controller("AuthController", function($scope, $state, Mongo, $window){
 	$scope.signin = function(user){
 		console.log('scope signin',user)
 		Mongo.signin(user).then(function(){
-<<<<<<< HEAD
-			$state.go('home');
-=======
 			console.log('should redirect now')
 			$state.reload();
->>>>>>> 3ddaf426aa3060d3604935cdbdedb690159581a5
 		})
 	}
 	$scope.refresh = function(submission){
@@ -168,10 +164,6 @@ app.factory('Mongo', function($http, $window){
 			console.log(e)
 		})
 	}
-<<<<<<< HEAD
-	function signin(user){
-		console.log('sending post...');
-=======
 	var user;
 	function getUser(){
 		return user;
@@ -179,7 +171,6 @@ app.factory('Mongo', function($http, $window){
 	function signin(user){
 		user = user;
 		console.log('factory')
->>>>>>> 3ddaf426aa3060d3604935cdbdedb690159581a5
 		return $http({
 			method: "POST",
 			url: '/api/users/signin',
@@ -198,34 +189,13 @@ app.factory('Mongo', function($http, $window){
 		// 	user = {_id:resp.data._id}
 		// })
 	}
-<<<<<<< HEAD
-	function getUser(){
-		console.log('get user');
-		console.log($window.sessionStorage.token)
-		return $http({
-			method: 'GET',
-			url: '/getUser?token='+$window.sessionStorage.token
-		})
-		.success(function(data){
-			console.log('got user');
-			console.log(data);
-		})
-	}
-=======
-
-
->>>>>>> 3ddaf426aa3060d3604935cdbdedb690159581a5
 	return {
 		updateLinks: updateLinks,
 		postLink: postLink,
 		deleteLink: deleteLink,
 		addUser: addUser,
 		signin: signin,
-<<<<<<< HEAD
-		getUser: getUser
-=======
 		user: getUser,
->>>>>>> 3ddaf426aa3060d3604935cdbdedb690159581a5
 	}
 });
 

@@ -16,6 +16,8 @@
     "express-session": "^1.10.3",
     "mongoose": "^3.8.24",
     "parseurl": "^1.3.0",
+    "passport": "^0.2.1",
+    "passport-local": "^1.0.0",
     "url": "^0.10.3"
   }
 }
