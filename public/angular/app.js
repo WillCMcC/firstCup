@@ -2,7 +2,6 @@ var app = angular.module('firstCup', ['ui.router']);
 
 app.config(function($stateProvider, $httpProvider, $urlRouterProvider) {
 	// $scope.links = [];
-	$urlRouterProvider.otherwise("/home");
 	$stateProvider
 		.state('home', {
 			url: "/home",
@@ -11,12 +10,13 @@ app.config(function($stateProvider, $httpProvider, $urlRouterProvider) {
 				"navbar": { templateUrl: "angular/views/navBar.html" }
 			}
 		})
-		.state('signup', {
-			url: "/signup",
-			views: {
-				"signupView": { templateUrl: "angular/views/signupView.html"}
-			}
-		})
+		// .state('signup', {
+		// 	url: "/signup",
+		// 	views: {
+		// 		"signupView": { templateUrl: "angular/views/signupView.html"}
+		// 	}
+		// })
+	$urlRouterProvider.otherwise("/home");
 });
 
 app.controller('LinksController', function($scope, Mongo, $state, $window){
@@ -54,24 +54,23 @@ app.controller("NavController", function($scope, Mongo, $state, $window){
 			// .then(function(data){console.log('posted',data.data)})
 		$state.reload();
 	}
-	$scope.refresh = function(submission){
+	$scope.refresh = function(){
 		console.log('refresh')
 		$state.reload();
 	}
-	$scope.signin = function(user){
-		console.log('scope signin',user)
-		Mongo.signin(user).then(function(){
-			console.log('should redirect now');
-			$scope.user = user;
-			$state.go('home');
-		})
-	}
-	$scope.logout = function()
-	{
-		console.log('test')
-		delete window.sessionStorage.token;
-		$state.reload();
-	}
+	// $scope.signin = function(user){
+	// 	console.log('scope signin',user)
+	// 	Mongo.signin(user).then(function(){
+	// 		console.log('should redirect now');
+	// 		$scope.user = user;
+	// 		$state.go('home');
+	// 	})
+	// }
+	// $scope.logout = function(){
+	// 	console.log('test')
+	// 	delete window.sessionStorage.token;
+	// 	$state.reload();
+	// }
 	$('.modal-trigger').leanModal();
 
 	// if(!$scope.user){
@@ -105,27 +104,27 @@ app.controller("AuthController", function($scope, $state, Mongo, $window){
 		$state.reload();
 	}
 })
-app.factory('authInterceptor', function ($rootScope, $q, $window) {
-  return {
-    request: function (config) {
-      config.headers = config.headers || {};
-      if ($window.sessionStorage.token) {
-        config.headers.Authorization = 'Bearer ' + $window.sessionStorage.token;
-      }
-      return config;
-    },
-    response: function (response) {
-      if (response.status === 401) {
-        // handle the case where the user is not authenticated
-      }
-      return response || $q.when(response);
-    }
-  };
-});
+// app.factory('authInterceptor', function ($rootScope, $q, $window) {
+//   return {
+//     request: function (config) {
+//       config.headers = config.headers || {};
+//       if ($window.sessionStorage.token) {
+//         config.headers.Authorization = 'Bearer ' + $window.sessionStorage.token;
+//       }
+//       return config;
+//     },
+//     response: function (response) {
+//       if (response.status === 401) {
+//         // handle the case where the user is not authenticated
+//       }
+//       return response || $q.when(response);
+//     }
+//   };
+// });
 
-app.config(function ($httpProvider) {
-  $httpProvider.interceptors.push('authInterceptor');
-});
+// app.config(function ($httpProvider) {
+//   $httpProvider.interceptors.push('authInterceptor');
+// });
 
 app.factory('Mongo', function($http, $window){
 	function updateLinks(){
@@ -154,7 +153,7 @@ app.factory('Mongo', function($http, $window){
 		console.log(user);
 		$http({
 			method: "POST",
-			url: '/api/users/signup',
+			url: '/signup',
 			dataType: 'application/json',
 			data: {user: user}
 		}).success(function(resp){
@@ -173,12 +172,12 @@ app.factory('Mongo', function($http, $window){
 		console.log('factory')
 		return $http({
 			method: "POST",
-			url: '/api/users/signin',
+			url: '/login',
 			dataType: 'application/json',
 			data: {user: user}			
 		})
 		.success(function(data, status, headers, config){
-			$window.sessionStorage.token = data.token;
+			// $window.sessionStorage.token = data.token;
 			console.log('check sessionStorage.token')
 			signedIn = true;
 		})
@@ -203,24 +202,24 @@ app.factory('Mongo', function($http, $window){
 $(document).on('ready', function(){
 	console.log('ready block')
 	$(".dropdown-button").dropdown();
-     $('.parallax').parallax();
+    // $('.parallax').parallax();
 
 })
 $(document).ready(function(){
     });
 
 
-window.signinCallback = function(authResult) {
-  if (authResult['status']['signed_in']) {
-    // Update the app to reflect a signed in user
-    // Hide the sign-in button now that the user is authorized, for example:
-    document.getElementById('signinButton').setAttribute('style', 'display: none');
-  } else {
-    // Update the app to reflect a signed out user
-    // Possible error values:
-    //   "user_signed_out" - User is signed-out
-    //   "access_denied" - User denied access to your app
-    //   "immediate_failed" - Could not automatically log in the user
-    console.log('Sign-in state: ' + authResult['error']);
-  }
-}
+// window.signinCallback = function(authResult) {
+//   if (authResult['status']['signed_in']) {
+//     // Update the app to reflect a signed in user
+//     // Hide the sign-in button now that the user is authorized, for example:
+//     document.getElementById('signinButton').setAttribute('style', 'display: none');
+//   } else {
+//     // Update the app to reflect a signed out user
+//     // Possible error values:
+//     //   "user_signed_out" - User is signed-out
+//     //   "access_denied" - User denied access to your app
+//     //   "immediate_failed" - Could not automatically log in the user
+//     console.log('Sign-in state: ' + authResult['error']);
+//   }
+// }

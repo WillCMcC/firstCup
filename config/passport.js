@@ -2,7 +2,7 @@ var LocalStrategy = require('passport-local').Strategy;
 	// TwitterStrategy = require('passport-twitter').Strategy,
 	// FacebookStrategy = require('passport-facebook').Strategy;
 
-var User = require('../userModel.js');
+var User = require('../models/userModel.js');
 
 module.exports = function(passport){
 	// serialize and deserialize the user
@@ -42,7 +42,6 @@ module.exports = function(passport){
 		                    var newUser = new User();
 		                    newUser.local.password = newUser.makeHash(password);
 		                    newUser.local.email = email;
-		                    newUser.local.emailVerified = false;
 
 		                    newUser.save(function(err, user) {
 		                        if (err) return done(err);
@@ -59,16 +58,3 @@ module.exports = function(passport){
 		}
 	));
 }
-
-// local signup
-// see if we have the email address
-	// yes
-		//see if address is verified
-			// yes - end
-			// no - send response that email needs verification
-	// no
-		// hash the password
-		// save user email and password to db
-		// set emailVerified to false
-		// create string for verification, save to db
-		// send verification email

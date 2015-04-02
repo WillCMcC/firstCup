@@ -1,5 +1,5 @@
 <div ng-controller="NavController">
-  <div ng-show="tester"=>
+  <div ng-show="tester">
     <h1 ng-model="user"> Hey {{user.username}}</h1>
   </div>
   <div class="col hide-on-small-only m3 l2">
@@ -7,12 +7,9 @@
       <div style="height: 1px;">
         <h4> HELLO user: {{user.username}} </h2>
         <ul class="section table-of-contents">
-          <!-- <div class='login-group login'> -->
-            <li><a ng-click='refresh()' class="waves-effect waves-light modal-trigger" href="#modal3" >Sign In</a></li>
-            <li><a ng-click='refresh()' class="waves-effect waves-light modal-trigger" href="#modal2">Sign Up</a></li>
-            <!-- <div ui-view="auth"></div> -->
-          <!-- </div> -->
-          <li><a ng-click='logout()'class="waves-effect waves-light">Log Out</a></li>
+          <li><a ng-click='refresh()' class="waves-effect waves-light modal-trigger" href="#modal3" >Log In</a></li>
+          <li><a ng-click='refresh()' class="waves-effect waves-light modal-trigger" href="#modal2">Sign Up</a></li>
+          <li><a href='/logout' class="waves-effect waves-light">Log Out</a></li>
 
           <li><a ng-click='refresh()'class="waves-effect waves-light modal-trigger" href="#modal1">Submit</a></li>
           <li><a href="/bro">Bro</a></li>
@@ -60,7 +57,7 @@
 <div ng-controller="AuthController" id="modal2" class="modal modal-fixed-footer">
   <div class="modal-content row">
     <div class="row">
-      <form class="col s12">
+      <form class="col s12" action="/signup" method="POST">
         <div class="row">
           <div class="row">
             <div class="input-field col s12">
@@ -80,24 +77,24 @@
         <div class="row">
           <div class="row">
             <div class="input-field col s12">
-              <input ng-model="user.username" id="username" type="text" class="validate">
+              <input name="username" ng-model="user.username" id="username" type="text" class="validate">
               <label for="url">Username</label>
             </div>
           </div>
         </div>
         <div class="row">
           <div class="input-field col s12">
-            <input ng-model="user.password" id="password"  type="password" class="validate">
-            <label for="Title">Password</label>
+            <input name="password" ng-model="user.password" id="password"  type="password" class="validate">
+            <label for="password">Password</label>
           </div>
         </div>
         <div class="row">
           <div class="input-field col s12">
             <input ng-model="user.confirmPassword" id="confirmPassword"  type="password" class="text">
-            <label for="Title">Confirm Password</label>
+            <label for="password">Confirm Password</label>
           </div>
         </div>
-        <a type="submit" ng-click='signup(user)' class="waves-effect waves-teal btn-flat modal-close">Sign Up</a>
+        <button type="submit" class="waves-effect waves-teal btn-flat modal-close">Sign Up</a>
       </form>
     </div>
   </div>
@@ -109,15 +106,15 @@
         <div class="row">
           <div class="row">
             <div class="input-field col s12">
-              <input ng-model="user.username" id="username" type="text" class="validate">
-              <label for="url">Username</label>
+              <input name="username" ng-model="user.username" id="username" type="text" class="validate">
+              <label for="username">Username</label>
             </div>
           </div>
         </div>
         <div class="row">
           <div class="input-field col s12">
-            <input ng-model="user.password" id="password"  type="password" class="validate">
-            <label for="Title">Password</label>
+            <input name="password" ng-model="user.password" id="password"  type="password" class="validate">
+            <label for="password">Password</label>
           </div>
         </div>
         <a type="submit" ng-click='signin(user)' class="waves-effect waves-teal btn-flat modal-close">Sign In</a>
