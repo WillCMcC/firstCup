@@ -7,6 +7,23 @@
       <div style="height: 1px;">
         <h4> HELLO user: {{user.username}} </h2>
         <ul class="section table-of-contents">
+          <li>
+            <form action="/signup" method="POST">
+              <fieldset>
+                <legend>Sign Up</legend>
+                <div>
+                  <label for="username">Username: </label>
+                  <input name="username" type="username">
+                </div>
+                <div>
+                  <label for="password">Password: </label>
+                  <input name="password" >
+                </div>
+                <button type="submit">Sign up</button>
+              </fieldset>
+            </form>
+          </li>
+
           <li><a ng-click='refresh()' class="waves-effect waves-light modal-trigger" href="#modal3" >Log In</a></li>
           <li><a ng-click='refresh()' class="waves-effect waves-light modal-trigger" href="#modal2">Sign Up</a></li>
           <li><a href='/logout' class="waves-effect waves-light">Log Out</a></li>
