@@ -48,7 +48,8 @@ db.once('open', function () {
 
 //logging all requests to console
 app.use(function(req,res,next){
-	console.log('serving '+req.method+' route '+req.url)
+	console.log('serving '+req.method+' route '+req.url);
+	console.log(req.user ? req.user : "no user");
 	next();
 });
 require('./config/passport.js')(passport);

@@ -34,8 +34,7 @@ module.exports = function(passport){
 		                // if there are any errors, return the error
 		                if (err) return done(err);
 		                if (user) {
-		                	console.log("User found: ");
-		                	console.log(user)
+		                	console.log("User found");
 		                    return done(null, user);
 		                } else {
 		                	console.log("Making new user");

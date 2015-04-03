@@ -23,9 +23,25 @@
               </fieldset>
             </form>
           </li>
+          <li>
+            <form action="/login" method="POST">
+              <fieldset>
+                <legend>Log In</legend>
+                <div>
+                  <label for="username">Username: </label>
+                  <input name="username" type="username">
+                </div>
+                <div>
+                  <label for="password">Password: </label>
+                  <input name="password" >
+                </div>
+                <button type="submit">Log In</button>
+              </fieldset>
+            </form>
+          </li>
 
-          <li><a ng-click='refresh()' class="waves-effect waves-light modal-trigger" href="#modal3" >Log In</a></li>
-          <li><a ng-click='refresh()' class="waves-effect waves-light modal-trigger" href="#modal2">Sign Up</a></li>
+          <!-- <li><a ng-click='refresh()' class="waves-effect waves-light modal-trigger" href="#modal3" >Log In</a></li> -->
+          <!-- <li><a ng-click='refresh()' class="waves-effect waves-light modal-trigger" href="#modal2">Sign Up</a></li> -->
           <li><a href='/logout' class="waves-effect waves-light">Log Out</a></li>
 
           <li><a ng-click='refresh()'class="waves-effect waves-light modal-trigger" href="#modal1">Submit</a></li>

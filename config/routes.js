@@ -22,12 +22,12 @@ module.exports = function(app, passport){
 		})
 	})
 	app.post('/signup',	passport.authenticate('local', {
-		successRedirect: '/pending',
+		successRedirect: '/',
 		failureRedirect: '/notAuthorized'
 	}));
 	app.post('/login', passport.authenticate('local', {
 		successRedirect: "/",
-		failureRedirect: "login"
+		failureRedirect: "/notAuthorized"
 	}))
 	app.get('/logout', function(req, res){
 	  req.logout();
