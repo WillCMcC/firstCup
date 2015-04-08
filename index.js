@@ -46,12 +46,6 @@ db.once('open', function () {
 });
 
 
-//logging all requests to console
-app.use(function(req,res,next){
-	console.log('serving '+req.method+' route '+req.url);
-	console.log(req.user ? req.user : "no user");
-	next();
-});
 require('./config/passport.js')(passport);
 
 
@@ -59,6 +53,12 @@ app.use(session({ secret: 'mysecret' }));
 app.use(passport.initialize());
 app.use(passport.session());
 
+// logging all requests to console
+app.use(function(req,res,next){
+	console.log('serving '+req.method+' route '+req.url);
+	console.log(req.user ? req.user : "no user");
+	next();
+});
 require("./config/routes.js")(app, passport)
 
 app.listen(port, function(){

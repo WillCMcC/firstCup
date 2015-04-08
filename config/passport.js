@@ -47,11 +47,10 @@ module.exports = function(passport){
 		                        return done(null, user);
 		                    });
 		                }
-
-
 		            });
 		        } else {
 		            // user already logged in
+		            console.log("User logged in")
 		            return done(null, req.user);
 		        }
 			});

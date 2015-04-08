@@ -45,8 +45,13 @@ app.controller('LinksController', function($scope, Mongo, $state, $window){
 	}
 })
 
-app.controller("NavController", function($scope, Mongo, $state, $window){
+app.controller("NavController", function($scope, Mongo, $state, $window, Auth){
 	$scope.submission = {};
+	// $scope.user = 
+	Auth.getUser().then(function(resp){
+		console.log(resp);
+		$scope.user = resp.data.local;
+	});
 	$scope.submit = function(submission){
 		console.log(submission)
 		//save to db
@@ -58,25 +63,7 @@ app.controller("NavController", function($scope, Mongo, $state, $window){
 		console.log('refresh')
 		$state.reload();
 	}
-	// $scope.signin = function(user){
-	// 	console.log('scope signin',user)
-	// 	Mongo.signin(user).then(function(){
-	// 		console.log('should redirect now');
-	// 		$scope.user = user;
-	// 		$state.go('home');
-	// 	})
-	// }
-	// $scope.logout = function(){
-	// 	console.log('test')
-	// 	delete window.sessionStorage.token;
-	// 	$state.reload();
-	// }
 	$('.modal-trigger').leanModal();
-
-	// if(!$scope.user){
-	// 	// debugger;
-	// 	$scope.user = Mongo.getUser();
-	// }
 })
 
 app.controller("AuthController", function($scope, $state, Mongo, $window){
@@ -104,27 +91,6 @@ app.controller("AuthController", function($scope, $state, Mongo, $window){
 		$state.reload();
 	}
 })
-// app.factory('authInterceptor', function ($rootScope, $q, $window) {
-//   return {
-//     request: function (config) {
-//       config.headers = config.headers || {};
-//       if ($window.sessionStorage.token) {
-//         config.headers.Authorization = 'Bearer ' + $window.sessionStorage.token;
-//       }
-//       return config;
-//     },
-//     response: function (response) {
-//       if (response.status === 401) {
-//         // handle the case where the user is not authenticated
-//       }
-//       return response || $q.when(response);
-//     }
-//   };
-// });
-
-// app.config(function ($httpProvider) {
-//   $httpProvider.interceptors.push('authInterceptor');
-// });
 
 app.factory('Mongo', function($http, $window){
 	function updateLinks(){
@@ -163,9 +129,12 @@ app.factory('Mongo', function($http, $window){
 			console.log(e)
 		})
 	}
-	var user;
 	function getUser(){
-		return user;
+		return $http({
+			method: "GET",
+			url: '/user',
+			dataType: 'application/json',
+		})
 	}
 	function signin(user){
 		user = user;
@@ -194,7 +163,20 @@ app.factory('Mongo', function($http, $window){
 		deleteLink: deleteLink,
 		addUser: addUser,
 		signin: signin,
-		user: getUser,
+		getUser: getUser,
+	}
+});
+app.factory('User', function($http){
+	function getUser(){
+		return $http({
+			method: "GET",
+			url: '/user',
+			dataType: 'application/json',
+		})
+	}
+
+	return {
+		getUser : getUser
 	}
 });
 
