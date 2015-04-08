@@ -3,6 +3,21 @@ var User = require('../models/userModel.js');
 var Link = require('../models/linkModel.js');
 
 module.exports = function(app, passport){
+	app.get("/profile", function(req,res,next){
+		console.log('profile route...')
+		passport.authenticate('local', function(err, user){
+			if(err){ throw err }
+			console.log('reqlogin')
+			req.logIn(user, function(err) {
+			  if (err) { return next(err); }
+			  console.log("redirecting to users/username")
+			  return res.redirect('/users/' + user.local.email);
+			});
+			console.log("here")
+			// console.log(req.user);
+			// console.log('authenticated in /')
+		});
+	});
 	app.get('/auth', ensureAuthenticated, function(req,res){
 		res.send("You are authenticated! <br/>" + req.user)
 	})
@@ -21,18 +36,40 @@ module.exports = function(app, passport){
 			res.status(201).end();
 		})
 	})
-	app.post('/signup',	passport.authenticate('local', {
-		successRedirect: '/',
-		failureRedirect: '/notAuthorized'
-	}));
-	app.post('/login', passport.authenticate('local', {
-		successRedirect: "/",
-		failureRedirect: "/notAuthorized"
-	}))
+	app.post('/signup', function(req, res, next) {
+	  passport.authenticate('local', function(err, user, info) {
+	    if (err) { return next(err); }
+	    if (!user) { return res.redirect('/'); }
+	    req.logIn(user, function(err) {
+	      if (err) { return next(err); }
+	      return res.redirect('/users/' + user.local.email);
+	    });
+	  })(req, res, next);
+	});
+	app.post('/login', function(req, res, next) {
+	  passport.authenticate('local', function(err, user, info) {
+	    if (err) { return next(err); }
+	    if (!user) { return res.redirect('/'); }
+	    req.logIn(user, function(err) {
+	      if (err) { return next(err); }
+	      return res.redirect('/');
+	    });
+	  })(req, res, next);
+	});
 	app.get('/logout', function(req, res){
 	  req.logout();
 	  res.redirect('/');
 	});
+	app.get('/user', function(req,res,next){
+		res.send(req.user)
+	})
+	// app.get('/users/:username', function(req, res, next){
+	// 	passport.authenticate('local', function(err, user, info){
+	// 		console.log('logged in'+req.user)
+	// 		var username = req.query.username;
+	// 		res.send(user.local)
+	// 	})(req,res,next);
+	// })
 
 	// app.post('/api/users/signup', function(req,res){
 	// 	console.log('in the route yup')
