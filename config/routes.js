@@ -63,13 +63,14 @@ module.exports = function(app, passport){
 	app.get('/user', function(req,res,next){
 		res.send(req.user)
 	})
-	// app.get('/users/:username', function(req, res, next){
-	// 	passport.authenticate('local', function(err, user, info){
-	// 		console.log('logged in'+req.user)
-	// 		var username = req.query.username;
-	// 		res.send(user.local)
-	// 	})(req,res,next);
-	// })
+	app.get('/users/:username', function(req, res, next){
+		// res.send(req.)
+		passport.authenticate('local', function(err, user, info){
+			console.log('logged in'+req.user)
+			var username = req.query.username;
+			res.send(user.local)
+		})(req,res,next);
+	})
 
 	// app.post('/api/users/signup', function(req,res){
 	// 	console.log('in the route yup')
