@@ -45,10 +45,9 @@ app.controller('LinksController', function($scope, Mongo, $state, $window){
 	}
 })
 
-app.controller("NavController", function($scope, Mongo, $state, $window, Auth){
+app.controller("NavController", function($scope, Mongo, $state, $window){
 	$scope.submission = {};
-	// $scope.user = 
-	Auth.getUser().then(function(resp){
+	Mongo.getUser().then(function(resp){
 		console.log(resp);
 		$scope.user = resp.data.local;
 	});
