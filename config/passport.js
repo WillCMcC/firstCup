@@ -32,7 +32,7 @@ module.exports = function(passport){
 		        	// see if a user exists with this email
 		            User.findOne({ 'local.email' :  email }, function(err, user) {
 		                // if there are any errors, return the error
-		                if (err) return done(err);
+		           		if (err) return done(err);
 		                if (user) {
 		                	console.log("User found");
 		                    return done(null, user);
