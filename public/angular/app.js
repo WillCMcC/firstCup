@@ -49,7 +49,10 @@ app.controller("NavController", function($scope, Mongo, $state, $window){
 	$scope.submission = {};
 	Mongo.getUser().then(function(resp){
 		console.log(resp);
-		$scope.user = resp.data.local;
+		if (resp.data.local){
+			$scope.user = resp.data.local;
+			$scope.loggedIn = true;
+		};
 	});
 	$scope.submit = function(submission){
 		console.log(submission)
@@ -142,7 +145,7 @@ app.factory('Mongo', function($http, $window){
 			method: "POST",
 			url: '/login',
 			dataType: 'application/json',
-			data: {user: user}			
+			data: {user: user}
 		})
 		.success(function(data, status, headers, config){
 			// $window.sessionStorage.token = data.token;
@@ -163,19 +166,6 @@ app.factory('Mongo', function($http, $window){
 		addUser: addUser,
 		signin: signin,
 		getUser: getUser,
-	}
-});
-app.factory('User', function($http){
-	function getUser(){
-		return $http({
-			method: "GET",
-			url: '/user',
-			dataType: 'application/json',
-		})
-	}
-
-	return {
-		getUser : getUser
 	}
 });
 
