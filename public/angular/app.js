@@ -40,8 +40,10 @@ app.controller("NavController", function($scope, User, Links, $state, $window){
 	};
 	User.getUser().then(function(resp){
 		console.log(resp);
-		$scope.user = resp.data.local;
-		$window.signedIn = true;
+		if (resp.data.local){
+			$scope.user = resp.data.local;
+			$window.signedIn = true;
+		};
 	});
 	$scope.submit = function(submission){
 		Links.postLink(submission);
