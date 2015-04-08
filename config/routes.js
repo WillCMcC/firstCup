@@ -1,4 +1,4 @@
-//endpoints 
+//endpoints
 var User = require('../models/userModel.js');
 var Link = require('../models/linkModel.js');
 
@@ -42,7 +42,7 @@ module.exports = function(app, passport){
 	    if (!user) { return res.redirect('/'); }
 	    req.logIn(user, function(err) {
 	      if (err) { return next(err); }
-	      return res.redirect('/users/' + user.local.email);
+	      return res.redirect('/');
 	    });
 	  })(req, res, next);
 	});
@@ -133,7 +133,7 @@ module.exports = function(app, passport){
 	// 						data.save(function(err, saved){
 	// 							res.json(saved)
 	// 						})
-	// 					}); 
+	// 					});
 	// 				} else {
 	// 					//not valid
 	// 					res.end("Wrong password")
@@ -168,7 +168,7 @@ module.exports = function(app, passport){
 
 	app.delete('/deleteLInk', function(req, res){
 		// get id from url query
-		var link = { _id: req.query._id }; 
+		var link = { _id: req.query._id };
 		Link.find(link)
 			.remove( function(err, results){
 				console.log('inside remove callback');
