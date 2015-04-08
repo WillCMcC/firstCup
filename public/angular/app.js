@@ -1,4 +1,8 @@
-var app = angular.module('firstCup', ['ui.router']);
+var app = angular.module('firstCup', [
+	'ui.router',
+	'firstCup.links',
+	'firstCup.nav'
+	]);
 
 app.config(function($stateProvider, $httpProvider, $urlRouterProvider) {
 	// $scope.links = [];
@@ -18,42 +22,6 @@ app.config(function($stateProvider, $httpProvider, $urlRouterProvider) {
 		// })
 	$urlRouterProvider.otherwise("/home");
 });
-
-app.controller('LinksController', function($scope, Links, $state, $window){
-	//get array of link objects from db
-	// $scope.links should be an array of objects from linkmodels collection
-	Links.updateLinks().then(function(resp){
-			$scope.links = resp.data;
-		});
-	$scope.deleteLink = function(link){
-		// delete link from database
-		console.log(link)
-		Links.deleteLink(link);
-		$state.reload();
-	}
-})
-
-app.controller("NavController", function($scope, User, Links, $state, $window){
-	$scope.submission = {};
-	if (!$window.signedIn){
-		$window.signedIn = false;
-	};
-	User.getUser().then(function(resp){
-		console.log(resp);
-		if (resp.data.local){
-			$scope.user = resp.data.local;
-			$window.signedIn = true;
-		};
-	});
-	$scope.submit = function(submission){
-		Links.postLink(submission);
-		$state.reload();
-	}
-	$scope.refresh = function(){
-		$state.reload();
-	}
-	// $('.modal-trigger').leanModal();
-})
 
 app.factory('User', function($http){
 	function getUser(){
@@ -98,6 +66,43 @@ app.factory('Links', function($http, $window){
 		deleteLink: deleteLink,
 	}
 });
+
+// app.controller('LinksController', function($scope, Links, $state, $window){
+// 	//get array of link objects from db
+// 	// $scope.links should be an array of objects from linkmodels collection
+// 	Links.updateLinks().then(function(resp){
+// 			$scope.links = resp.data;
+// 		});
+// 	$scope.deleteLink = function(link){
+// 		// delete link from database
+// 		console.log(link)
+// 		Links.deleteLink(link);
+// 		$state.reload();
+// 	}
+// })
+
+// app.controller("NavController", function($scope, User, Links, $state, $window){
+// 	$scope.submission = {};
+// 	if (!$window.signedIn){
+// 		$window.signedIn = false;
+// 	};
+// 	if($window.signedIn)
+// 	User.getUser().then(function(resp){
+// 		console.log(resp);
+// 		if (resp.data.local){
+// 			$scope.user = resp.data.local;
+// 			$window.signedIn = true;
+// 		};
+// 	});
+// 	$scope.submit = function(submission){
+// 		Links.postLink(submission);
+// 		$state.reload();
+// 	}
+// 	$scope.refresh = function(){
+// 		$state.reload();
+// 	}
+// 	// $('.modal-trigger').leanModal();
+// })
 
 
 $(document).on('ready', function(){
