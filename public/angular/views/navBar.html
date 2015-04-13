@@ -2,12 +2,14 @@
   <div ng-show="tester">
     <h1 ng-model="user"> Hey {{user.username}}</h1>
   </div>
-  <div class="col hide-on-small-only m3 l2">
-    <div class="pushpinWrapper">
+  <!-- <div class="col hide-on-small-only"> -->
+  <div>
+    <!-- <div class="pushpinWrapper"> -->
+    <div>
       <div style="height: 1px;">
         <h4> HELLO user: {{user.email}} </h2>
         <ul class="section table-of-contents">
-          <li>
+          <li ng-show="notLoggedIn">
             <form action="/signup" method="POST">
               <fieldset>
                 <legend>Sign Up</legend>
@@ -23,7 +25,7 @@
               </fieldset>
             </form>
           </li>
-          <li>
+          <li ng-show="notLoggedIn">
             <form action="/login" method="POST">
               <fieldset>
                 <legend>Log In</legend>
