@@ -18,5 +18,5 @@ angular.module('firstCup.nav', []).controller("NavController", function($scope, 
 	$scope.refresh = function(){
 		$state.reload();
 	}
-	// $('.modal-trigger').leanModal();
+	$('.modal-trigger').leanModal();
 })
