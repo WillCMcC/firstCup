@@ -35,17 +35,14 @@ module.exports = function(passport){
 		           		if (err) return done(err);
 		                if (user) {
 		                	console.log("User found");
+		                	if (!user.checkPassword(password)){
+		                		return done(null, false)
+		                	}
+
 		                    return done(null, user);
 		                } else {
-		                	console.log("Making new user");
-		                    var newUser = new User();
-		                    newUser.local.password = newUser.makeHash(password);
-		                    newUser.local.email = email;
-
-		                    newUser.save(function(err, user) {
-		                        if (err) return done(err);
-		                        return done(null, user);
-		                    });
+		                	console.log("No user found");
+		                	return done(null, false);
 		                }
 		            });
 		        } else {
@@ -56,4 +53,32 @@ module.exports = function(passport){
 			});
 		}
 	));
+	passport.use('local-signup', new LocalStrategy(
+		{
+			usernameField : 'username',
+			passwordField : 'password',
+			passReqToCallback : true 	
+		},
+		function(req, email, password, done){
+			console.log('local0signup')
+			if(!req.user){
+				User.findOne({'local.email':email}, function(err, user){
+					if(err) return done(err);
+					if ( user ){
+						console.log("username already registered")
+						return done(null, false)
+					} else {
+						console.log("Making new user");
+					    var newUser = new User();
+					    newUser.local.password = newUser.makeHash(password);
+					    newUser.local.email = email;
+
+					    newUser.save(function(err, user) {
+					        if (err) return done(err);
+					        return done(null, user);
+					    });
+					}
+				})
+			}
+		}))
 }
