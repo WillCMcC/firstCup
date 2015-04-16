@@ -1,12 +1,13 @@
 // vars
 var port = process.env.PORT || 6969;
-	
+
 //  reqs
-var http = require("http"),
+var
 	express = require("express"),
+	http = require('http'),
 	bodyParser = require("body-parser"),
-	parseurl = require("parseurl")
-	bcrypt = require("bcrypt")
+	parseurl = require("parseurl"),
+	bcrypt = require("bcrypt"),
 	mongoose = require("mongoose"),
 	passport = require("passport"),
 	session = require('express-session'),
@@ -15,6 +16,7 @@ var http = require("http"),
 
 
 var app = express();
+
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(express.static(__dirname + '/public'));
@@ -28,7 +30,7 @@ app.use(express.static(__dirname + '/public'));
 // var MongoStore = require('connect-mongo')(expressSession);
 
 // //Serving Static Files
-// app.use(function(req, res, next) {  
+// app.use(function(req, res, next) {
 //     res.header('Access-Control-Allow-Origin', 'http://localhost:6969');
 //     next();
 // });
@@ -61,6 +63,18 @@ app.use(function(req,res,next){
 });
 require("./config/routes.js")(app, passport)
 
-app.listen(port, function(){
-	console.log('Listening on port ' + port);
+var server = http.createServer(app);
+var io = require('socket.io').listen(server);
+
+io.on('connection', function(socket){
+	socket.on('chat message', function(msg){
+		socket.emit('sending message', msg);
+		console.log("in here");
+	});
+});
+
+
+
+server.listen(6969, function(){
+  console.log('listening on *:6969*');
 });

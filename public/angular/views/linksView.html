@@ -3,7 +3,7 @@
 	 <div ng-show="tester"=>
 	 	<div class=" card small  blue lighten-2">
     <t1 ng-model="user"> Hey {{user.username}}</t1>
-  </div>  
+  </div>
   </div>
 	<div ng-repeat="link in links" class=" card large linkCard grey lighten-2">
     	<a ng-click="deleteLink(link)" class="btn-floating btn-small waves-effect waves-light grey lighten-2"><i class="mdi-content-clear"></i></a>
@@ -13,8 +13,27 @@
 	        <img class="activator" src="/images/kobe.jpg"  width="100%">
         </div>
         <div class="card-reveal">
-	         <span class="card-title black-text text-darken-4">{{link.title}}<i class="mdi-navigation-close right"></i></span>
-	         <p>{{link.description}}</p>
+					<span class="card-title grey-text text-darken-4">Card Title <i class="mdi-navigation-close right"></i></span>
+					<script>
+						var socket = io();
+						$('form').submit(function(){
+							socket.emit('chat message', $('#m').val());
+							$('#m').val('');
+							return false;
+						});
+						socket.on('sending message', function(msg){
+
+							debugger;
+							$('#messages').append($('<li>').text(msg))
+							msg = "";
+						});
+					</script>
+
+					<ul id="messages"></ul>
+
+						<form action="">
+							<input  id="m" autocomplete="off" /><button>Send</button>
+						</form>
         </div>
     </div>
 </div>
