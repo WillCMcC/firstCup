@@ -11,17 +11,23 @@
       <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
 
       <script src="angular/app.js"></script>
+<<<<<<< HEAD
       <script src="/socket.io/socket.io.js"></script>
       
+=======
+      <script src="angular/controllers/linksController.js"></script>
+      <script src="angular/controllers/navController.js"></script>
+>>>>>>> 0477883abb328f76b9dc1bf89bfab5b513838732
 
     </head>
 
     <body>
-        <div ui-view="navbar"></div>
       <div class ='row'>
-        <!-- <div class='col s2'></div> -->
-      <div class='col s8 offset-m2'>
-        <div ui-view="linksView"></div>
+        <div class='col s8 offset-m2'>
+          <div ui-view="linksView"></div>
+        </div>
+        <div class="col s2">
+          <div ui-view="navbar"></div>
         </div>
       </div>
 
