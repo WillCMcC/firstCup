@@ -7,7 +7,8 @@
   </div>
 	<div ng-repeat="link in links" class=" card linkCard grey lighten-2">
         <span class="card-title activator grey-text text-darken-2 linker"> {{link.title}} <i class="mdi-navigation-more-vert right"></i></span>
-        <p><a href="http://{{link.url}}">{{link.url}}</a></p>
+				<a ng-click="deleteLink(link)" class="btn-floating btn-small waves-effect waves-light grey lighten-2"><i class="mdi-content-clear"></i></a>
+				<p><a href="http://{{link.url}}">{{link.url}}</a></p>
         <div class="card-image waves-effect waves-teal waves-block waves-light">
 	        <img class="activator" src="/images/kobe.jpg"  width="100%">
         </div>
